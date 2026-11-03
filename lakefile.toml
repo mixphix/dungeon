@@ -1,0 +1,10 @@
+name = "dungeon"
+version = "0.1.0"
+defaultTargets = ["dungeon"]
+
+[[lean_lib]]
+name = "Dungeon"
+
+[[lean_exe]]
+name = "dungeon"
+root = "Main"
