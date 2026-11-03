@@ -678,7 +678,7 @@ structure Character where
   name : String
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
-  abilityScores : Std.DTreeMap Ability Skills
+  skills : Std.DTreeMap Ability Skills
 
 def characterLevel : Character -> Level :=
   fun char =>
@@ -740,7 +740,7 @@ def maxresources : Character -> Std.TreeMap Resource Int :=
         , ⟨Class.fighter, {level := {level := 6}, subclass := Option.some Subclass.eldritchKnight}⟩
         }
     , resources := {}
-    , abilityScores :=
+    , skills :=
       { ⟨Ability.strength, {score := 13, proficiencies := {(Skill.athletics, Proficiency.proficiency)}}⟩
       , ⟨Ability.dexterity, {score := 8, proficiencies := {(Skill.stealth, Proficiency.proficiency)}}⟩
       , ⟨Ability.constitution, {score := 10, proficiencies := {}}⟩
