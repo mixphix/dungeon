@@ -522,6 +522,14 @@ def warlockSpells : Level -> Std.TreeMap Resource Int :=
   | 10 => {(Resource.warlockSpellSlot SpellSlot.v, 2)}
   | 11 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
   | 12 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 13 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 14 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 15 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 16 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 17 => {(Resource.warlockSpellSlot SpellSlot.v, 4)}
+  | 18 => {(Resource.warlockSpellSlot SpellSlot.v, 4)}
+  | 19 => {(Resource.warlockSpellSlot SpellSlot.v, 4)}
+  | 20 => {(Resource.warlockSpellSlot SpellSlot.v, 4)}
   | _ => {}
 
 def leveledSpellSlots : Level -> DSpecify Class Subclass -> Std.TreeMap Resource Int :=
@@ -580,6 +588,8 @@ def classResources : Level -> DSpecify Class Subclass -> Std.TreeMap Resource In
     {(Resource.wildShape, 2)}
   | DSpecify.avec Class.rogue Subclass.thief =>
     {(Resource.bonusAction, 1)}
+  | DSpecify.sans Class.warlock =>
+    warlockSpells lvl
   | _ => {}
 
 structure ClassInfo (cls : Class) where
@@ -619,20 +629,35 @@ def effectiveSpellcastingLevel : Character -> Level :=
 
 def maxresources : Character -> Std.TreeMap Resource Int :=
   fun char =>
-    char.classes.foldl
-      ( fun acc cls ci =>
-        Std.TreeMap.mergeWith
-          (fun _ => Add.add)
-          acc
-          ( match ci.subclass with
-            | Option.none => classResources ci.level (DSpecify.sans cls)
-            | Option.some sub =>
-              Std.TreeMap.union
-                (classResources ci.level (DSpecify.sans cls))
-                (classResources ci.level (DSpecify.avec cls sub))
-          )
+    Std.TreeMap.union
+      ( char.classes.foldl
+        ( fun acc cls ci =>
+          Std.TreeMap.mergeWith
+            (fun _ => Add.add)
+            acc
+            ( match ci.subclass with
+              | Option.none => classResources ci.level (DSpecify.sans cls)
+              | Option.some sub =>
+                Std.TreeMap.union
+                  (classResources ci.level (DSpecify.sans cls))
+                  (classResources ci.level (DSpecify.avec cls sub))
+            )
+        )
+        {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
       )
-      {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
+      (fullCaster (effectiveSpellcastingLevel char))
+
+#eval
+  ( maxresources
+    { name := "Melanie"
+    , classes :=
+        Std.DTreeMap.insert
+          (Std.DTreeMap.insert {} Class.warlock {level := {level := 6}, subclass := Option.some Subclass.theArchfey})
+          Class.fighter
+          {level := {level := 6}, subclass := Option.some Subclass.eldritchKnight}
+    , resources := {}
+    }
+  )
 
 -- inductive Recharge where
 --   | onTurn
