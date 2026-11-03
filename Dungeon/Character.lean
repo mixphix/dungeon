@@ -242,12 +242,24 @@ inductive Feature : Level -> DOption Class Subclass -> Type where
   | frenziedStrike : Feature {level := 3} (DOption.there Class.barbarian Subclass.berserker)
   | enragedThrow : Feature {level := 3} (DOption.there Class.barbarian Subclass.berserker)
 
+structure ClassInfo (cls : Class) where
+  level : Level
+  subclass : Option (Subclass cls)
 
 structure Character where
   name : String
-  levels : Std.TreeMap Class Level
-  subclasses : Std.DTreeMap Class Subclass
+  classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
+
+def maxresources : Character -> Std.TreeMap Resource Int :=
+  fun char =>
+    char.classes.foldl
+      ( fun acc cls ci => Std.TreeMap.union acc (match ci.subclass with
+        | Option.none => classResources ci.level (DOption.here cls : (DOption Class Subclass : Type))
+        | Option.some sub => classResources ci.level (DOption.there cls sub))
+      )
+      {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
+
 
 -- class LevelSpellSlots (cls : Class) (sub : Subclass cls) where
 --   levelSpellSlots : Nat -> Std.TreeMap SpellSlot Nat
