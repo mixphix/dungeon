@@ -1,7 +1,6 @@
 import Std.Data.TreeMap.Basic
 
 inductive Class where
-  | artificer
   | barbarian
   | bard
   | cleric
@@ -21,7 +20,6 @@ structure Level where level : Int
 
 def subclassLevel : Class -> Level :=
   fun cls => match cls with
-  | Class.artificer => {level := 3}
   | Class.barbarian => {level := 3}
   | Class.bard => {level := 3}
   | Class.cleric => {level := 1}
@@ -195,18 +193,45 @@ def classResources : Level -> DOption Class Subclass -> Std.TreeMap Resource Int
   fun lvl doption => match doption with
   | DOption.nothing =>
     {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
-  | DOption.here Class.barbarian =>
-    {(Resource.rage, leveledResource lvl Resource.rage)}
+  | DOption.here Class.wizard =>
+    {(Resource.arcaneRecovery, leveledResource lvl Resource.arcaneRecovery)}
   | DOption.here Class.bard =>
     {(Resource.bardicInspiration, leveledResource lvl Resource.bardicInspiration)}
   | DOption.there Class.wizard Subclass.schoolOfBladesinging =>
     {(Resource.bladesongPower, leveledResource lvl Resource.bladesongPower)}
   | DOption.there Class.druid Subclass.circleOfTheStars =>
-    {(Resource.cosmicOmen, leveledResource lvl Resource.cosmicOmen)}
+    { (Resource.cosmicOmen, leveledResource lvl Resource.cosmicOmen)
+    , (Resource.starMap, leveledResource lvl Resource.starMap)
+    }
   | DOption.there Class.druid Subclass.circleOfTheSpores =>
     {(Resource.fungalInfestation, leveledResource lvl Resource.fungalInfestation)}
   | DOption.here Class.paladin =>
-    {(Resource.layOnHands, leveledResource lvl Resource.layOnHands)}
+    { (Resource.layOnHands, leveledResource lvl Resource.layOnHands)
+    , (Resource.channelOath, leveledResource lvl Resource.channelOath)
+    }
+  | DOption.there Class.druid Subclass.circleOfTheLand =>
+    {(Resource.naturalRecovery, leveledResource lvl Resource.naturalRecovery)}
+  | DOption.here Class.barbarian =>
+    {(Resource.rage, leveledResource lvl Resource.rage)}
+  | DOption.here Class.sorcerer =>
+    {(Resource.sorceryPoint, leveledResource lvl Resource.sorceryPoint)}
+  | DOption.there Class.cleric Subclass.warDomain =>
+    {(Resource.warPriest, leveledResource lvl Resource.warPriest)}
+  | DOption.there Class.ranger Subclass.swarmkeeper =>
+    {(Resource.writhingCurrents, leveledResource lvl Resource.writhingCurrents)}
+  | DOption.there Class.fighter Subclass.arcaneArcher =>
+    {(Resource.arcaneArrow, leveledResource lvl Resource.arcaneArrow)}
+  | DOption.here Class.cleric =>
+    {(Resource.channelDivinity, leveledResource lvl Resource.channelDivinity)}
+  | DOption.here Class.monk =>
+    {(Resource.kiPoint, leveledResource lvl Resource.kiPoint)}
+  | DOption.there Class.fighter Subclass.battleMaster =>
+    {(Resource.superiorityDie, leveledResource lvl Resource.superiorityDie)}
+  | DOption.there Class.sorcerer Subclass.wildMagicSorcerer =>
+    {(Resource.tidesOfChaos, 1)}
+  | DOption.here Class.druid =>
+    {(Resource.wildShape, 2)}
+  | _ => {}
 
 inductive Feature : Level -> DOption Class Subclass -> Type where
   | rage : Feature {level := 1} (DOption.here Class.barbarian)
