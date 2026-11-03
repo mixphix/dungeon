@@ -736,39 +736,23 @@ def maxresources : Character -> Std.TreeMap Resource Int :=
   ( maxresources
     { name := "Melanie"
     , classes :=
-        Std.DTreeMap.insert
-          (Std.DTreeMap.insert {} Class.warlock {level := {level := 6}, subclass := Option.some Subclass.theArchfey})
-          Class.fighter
-          {level := {level := 6}, subclass := Option.some Subclass.eldritchKnight}
+        { ⟨Class.warlock, {level := {level := 6}, subclass := Option.some Subclass.theArchfey}⟩
+        , ⟨Class.fighter, {level := {level := 6}, subclass := Option.some Subclass.eldritchKnight}⟩
+        }
     , resources := {}
     , abilityScores :=
-        Std.DTreeMap.insert
-          ( Std.DTreeMap.insert
-            ( Std.DTreeMap.insert
-              ( Std.DTreeMap.insert
-                ( Std.DTreeMap.insert
-                  ( Std.DTreeMap.insert
-                    {}
-                    Ability.strength
-                    {score := 13, proficiencies := {(Skill.athletics, Proficiency.proficiency)}}
-                  )
-                  Ability.dexterity
-                  {score := 8, proficiencies := {(Skill.stealth, Proficiency.proficiency)}}
-                )
-                Ability.constitution
-                {score := 10, proficiencies := {}}
-              )
-              Ability.intelligence
-              {score := 17, proficiencies := {(Skill.arcana, Proficiency.expertise)}}
-            )
-            Ability.wisdom
-            { score := 15, proficiencies :=
-              { (Skill.perception, Proficiency.proficiency)
-              , (Skill.insight, Proficiency.proficiency)
-              }
+      { ⟨Ability.strength, {score := 13, proficiencies := {(Skill.athletics, Proficiency.proficiency)}}⟩
+      , ⟨Ability.dexterity, {score := 8, proficiencies := {(Skill.stealth, Proficiency.proficiency)}}⟩
+      , ⟨Ability.constitution, {score := 10, proficiencies := {}}⟩
+      , ⟨Ability.intelligence, {score := 17, proficiencies := {(Skill.arcana, Proficiency.expertise)}}⟩
+      , ⟨ Ability.wisdom
+        , { score := 15, proficiencies :=
+            { (Skill.perception, Proficiency.proficiency)
+            , (Skill.insight, Proficiency.proficiency)
             }
-          )
-          Ability.charisma
-          {score := 12, proficiencies := {(Skill.deception, Proficiency.proficiency)}}
+          }
+        ⟩
+      , ⟨Ability.charisma, {score := 12, proficiencies := {(Skill.deception, Proficiency.proficiency)}}⟩
+      }
     }
   )
