@@ -184,65 +184,403 @@ def leveledResource : Level -> Resource -> Int :=
   | Resource.tidesOfChaos => 1
   | Resource.wildShape => 2
 
-inductive DOption (α : Type u) (β : α -> Type v) : Type (max u v) where
-  | nothing
-  | here : α -> DOption α β
-  | there : (a : α) -> β a -> DOption α β
+inductive DSpecify (x : Type u) (y : x -> Type v) : Type (max u v) where
+  | sans : x -> DSpecify x y
+  | avec : (a : x) -> y a -> DSpecify x y
 
-def classResources : Level -> DOption Class Subclass -> Std.TreeMap Resource Int :=
-  fun lvl doption => match doption with
-  | DOption.nothing =>
-    {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
-  | DOption.here Class.wizard =>
+def fullCaster : Level -> Std.TreeMap Resource Int :=
+  fun {level := lvl} => match lvl with
+  | 1 => {(Resource.spellSlot SpellSlot.i, 2)}
+  | 2 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 3 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 4 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 5 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 6 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 7 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 1)
+    }
+  | 8 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 2)
+    }
+  | 9 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 1)
+    }
+  | 10 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    }
+  | 11 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    }
+  | 12 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    }
+  | 13 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    }
+  | 14 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    }
+  | 15 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    }
+  | 16 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    }
+  | 17 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    , (Resource.spellSlot SpellSlot.ix, 1)
+    }
+  | 18 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 3)
+    , (Resource.spellSlot SpellSlot.vi, 1)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    , (Resource.spellSlot SpellSlot.ix, 1)
+    }
+  | 19 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 3)
+    , (Resource.spellSlot SpellSlot.vi, 2)
+    , (Resource.spellSlot SpellSlot.vii, 1)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    , (Resource.spellSlot SpellSlot.ix, 1)
+    }
+  | 20 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 3)
+    , (Resource.spellSlot SpellSlot.vi, 2)
+    , (Resource.spellSlot SpellSlot.vii, 2)
+    , (Resource.spellSlot SpellSlot.viii, 1)
+    , (Resource.spellSlot SpellSlot.ix, 1)
+    }
+  | _ => {}
+
+def halfCaster : Level -> Std.TreeMap Resource Int :=
+  fun {level := lvl} => match lvl with
+  | 1 => {}
+  | 2 => {(Resource.spellSlot SpellSlot.i, 2)}
+  | 3 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 4 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 5 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 6 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 7 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 8 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 9 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 10 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 11 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 12 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 13 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 1)
+    }
+  | 14 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 1)
+    }
+  | 15 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 2)
+    }
+  | 16 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 2)
+    }
+  | 17 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 1)
+    }
+  | 18 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 1)
+    }
+  | 19 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    }
+  | 20 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 3)
+    , (Resource.spellSlot SpellSlot.v, 2)
+    }
+  | _ => {}
+
+def thirdCaster : Level -> Std.TreeMap Resource Int :=
+  fun {level := lvl} => match lvl with
+  | 1 => {}
+  | 2 => {}
+  | 3 => {(Resource.spellSlot SpellSlot.i, 2)}
+  | 4 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 5 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 6 => {(Resource.spellSlot SpellSlot.i, 3)}
+  | 7 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 8 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 9 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 2)
+    }
+  | 10 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 11 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 12 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    }
+  | 13 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 14 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 15 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 2)
+    }
+  | 16 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 17 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 18 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    }
+  | 19 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 1)
+    }
+  | 20 =>
+    { (Resource.spellSlot SpellSlot.i, 4)
+    , (Resource.spellSlot SpellSlot.ii, 3)
+    , (Resource.spellSlot SpellSlot.iii, 3)
+    , (Resource.spellSlot SpellSlot.iv, 1)
+    }
+  | _ => {}
+
+def warlockSpells : Level -> Std.TreeMap Resource Int :=
+  fun {level := lvl} => match lvl with
+  | 1 => {(Resource.warlockSpellSlot SpellSlot.i, 1)}
+  | 2 => {(Resource.warlockSpellSlot SpellSlot.i, 2)}
+  | 3 => {(Resource.warlockSpellSlot SpellSlot.ii, 2)}
+  | 4 => {(Resource.warlockSpellSlot SpellSlot.ii, 2)}
+  | 5 => {(Resource.warlockSpellSlot SpellSlot.iii, 2)}
+  | 6 => {(Resource.warlockSpellSlot SpellSlot.iii, 2)}
+  | 7 => {(Resource.warlockSpellSlot SpellSlot.iv, 2)}
+  | 8 => {(Resource.warlockSpellSlot SpellSlot.iv, 2)}
+  | 9 => {(Resource.warlockSpellSlot SpellSlot.v, 2)}
+  | 10 => {(Resource.warlockSpellSlot SpellSlot.v, 2)}
+  | 11 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | 12 => {(Resource.warlockSpellSlot SpellSlot.v, 3)}
+  | _ => {}
+
+def leveledSpellSlots : Level -> DSpecify Class Subclass -> Std.TreeMap Resource Int :=
+  fun lvl dspecify => match dspecify with
+  | DSpecify.sans Class.bard => fullCaster lvl
+  | DSpecify.sans Class.cleric => fullCaster lvl
+  | DSpecify.sans Class.druid => fullCaster lvl
+  | DSpecify.sans Class.paladin => halfCaster lvl
+  | DSpecify.sans Class.ranger => halfCaster lvl
+  | DSpecify.sans Class.sorcerer => fullCaster lvl
+  | DSpecify.sans Class.warlock => warlockSpells lvl
+  | DSpecify.sans Class.wizard => fullCaster lvl
+  | DSpecify.avec Class.rogue Subclass.arcaneTrickster => thirdCaster lvl
+  | DSpecify.avec Class.fighter Subclass.eldritchKnight => thirdCaster lvl
+  | _ => {}
+
+def classResources : Level -> DSpecify Class Subclass -> Std.TreeMap Resource Int :=
+  fun lvl dspecify => match dspecify with
+  | DSpecify.sans Class.wizard =>
     {(Resource.arcaneRecovery, leveledResource lvl Resource.arcaneRecovery)}
-  | DOption.here Class.bard =>
+  | DSpecify.sans Class.bard =>
     {(Resource.bardicInspiration, leveledResource lvl Resource.bardicInspiration)}
-  | DOption.there Class.wizard Subclass.schoolOfBladesinging =>
+  | DSpecify.avec Class.wizard Subclass.schoolOfBladesinging =>
     {(Resource.bladesongPower, leveledResource lvl Resource.bladesongPower)}
-  | DOption.there Class.druid Subclass.circleOfTheStars =>
+  | DSpecify.avec Class.druid Subclass.circleOfTheStars =>
     { (Resource.cosmicOmen, leveledResource lvl Resource.cosmicOmen)
     , (Resource.starMap, leveledResource lvl Resource.starMap)
     }
-  | DOption.there Class.druid Subclass.circleOfTheSpores =>
+  | DSpecify.avec Class.druid Subclass.circleOfTheSpores =>
     {(Resource.fungalInfestation, leveledResource lvl Resource.fungalInfestation)}
-  | DOption.here Class.paladin =>
+  | DSpecify.sans Class.paladin =>
     { (Resource.layOnHands, leveledResource lvl Resource.layOnHands)
     , (Resource.channelOath, leveledResource lvl Resource.channelOath)
     }
-  | DOption.there Class.druid Subclass.circleOfTheLand =>
+  | DSpecify.avec Class.druid Subclass.circleOfTheLand =>
     {(Resource.naturalRecovery, leveledResource lvl Resource.naturalRecovery)}
-  | DOption.here Class.barbarian =>
+  | DSpecify.sans Class.barbarian =>
     {(Resource.rage, leveledResource lvl Resource.rage)}
-  | DOption.here Class.sorcerer =>
+  | DSpecify.sans Class.sorcerer =>
     {(Resource.sorceryPoint, leveledResource lvl Resource.sorceryPoint)}
-  | DOption.there Class.cleric Subclass.warDomain =>
+  | DSpecify.avec Class.cleric Subclass.warDomain =>
     {(Resource.warPriest, leveledResource lvl Resource.warPriest)}
-  | DOption.there Class.ranger Subclass.swarmkeeper =>
+  | DSpecify.avec Class.ranger Subclass.swarmkeeper =>
     {(Resource.writhingCurrents, leveledResource lvl Resource.writhingCurrents)}
-  | DOption.there Class.fighter Subclass.arcaneArcher =>
+  | DSpecify.avec Class.fighter Subclass.arcaneArcher =>
     {(Resource.arcaneArrow, leveledResource lvl Resource.arcaneArrow)}
-  | DOption.here Class.cleric =>
+  | DSpecify.sans Class.cleric =>
     {(Resource.channelDivinity, leveledResource lvl Resource.channelDivinity)}
-  | DOption.here Class.monk =>
+  | DSpecify.sans Class.monk =>
     {(Resource.kiPoint, leveledResource lvl Resource.kiPoint)}
-  | DOption.there Class.fighter Subclass.battleMaster =>
+  | DSpecify.avec Class.fighter Subclass.battleMaster =>
     {(Resource.superiorityDie, leveledResource lvl Resource.superiorityDie)}
-  | DOption.there Class.sorcerer Subclass.wildMagicSorcerer =>
+  | DSpecify.avec Class.sorcerer Subclass.wildMagicSorcerer =>
     {(Resource.tidesOfChaos, 1)}
-  | DOption.here Class.druid =>
+  | DSpecify.sans Class.druid =>
     {(Resource.wildShape, 2)}
-  | DOption.there Class.rogue Subclass.thief =>
+  | DSpecify.avec Class.rogue Subclass.thief =>
     {(Resource.bonusAction, 1)}
   | _ => {}
-
-inductive Feature : Level -> DOption Class Subclass -> Type where
-  | rage : Feature {level := 1} (DOption.here Class.barbarian)
-  | unarmouredDefenceBarbarian : Feature {level := 1} (DOption.here Class.barbarian)
-  | recklessAttack : Feature {level := 2} (DOption.here Class.barbarian)
-  | dangerSense : Feature {level := 2} (DOption.here Class.barbarian)
-  | frenzy : Feature {level := 3} (DOption.there Class.barbarian Subclass.berserker)
-  | frenziedStrike : Feature {level := 3} (DOption.there Class.barbarian Subclass.berserker)
-  | enragedThrow : Feature {level := 3} (DOption.there Class.barbarian Subclass.berserker)
 
 structure ClassInfo (cls : Class) where
   level : Level
@@ -253,881 +591,48 @@ structure Character where
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
 
+def effectiveSpellcastingLevel : Character -> Level :=
+  fun char =>
+    { level :=
+      ( char.classes.foldl
+        ( fun acc cls ci => match cls with
+          | Class.barbarian => acc
+          | Class.bard => acc + ci.level.level * 6
+          | Class.cleric => acc + ci.level.level * 6
+          | Class.druid => acc + ci.level.level * 6
+          | Class.fighter => match ci.subclass with
+            | Option.some Subclass.eldritchKnight => acc + ci.level.level * 2
+            | _ => acc
+          | Class.monk => acc
+          | Class.paladin => acc + ci.level.level * 3
+          | Class.ranger => acc + ci.level.level * 3
+          | Class.rogue => match ci.subclass with
+            | Option.some Subclass.arcaneTrickster => acc + ci.level.level * 2
+            | _ => acc
+          | Class.sorcerer => acc + ci.level.level * 6
+          | Class.warlock => acc
+          | Class.wizard => acc + ci.level.level * 6
+        )
+        0
+      ) / 6
+    }
+
 def maxresources : Character -> Std.TreeMap Resource Int :=
   fun char =>
     char.classes.foldl
-      ( fun acc cls ci => Std.TreeMap.mergeWith (fun _ b b' => b + b') acc (match ci.subclass with
-        | Option.none => classResources ci.level (DOption.here cls)
-        | Option.some sub => classResources ci.level (DOption.there cls sub))
+      ( fun acc cls ci =>
+        Std.TreeMap.mergeWith
+          (fun _ => Add.add)
+          acc
+          ( match ci.subclass with
+            | Option.none => classResources ci.level (DSpecify.sans cls)
+            | Option.some sub =>
+              Std.TreeMap.union
+                (classResources ci.level (DSpecify.sans cls))
+                (classResources ci.level (DSpecify.avec cls sub))
+          )
       )
       {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
-
-
--- class LevelSpellSlots (cls : Class) (sub : Subclass cls) where
---   levelSpellSlots : Nat -> Std.TreeMap SpellSlot Nat
-
--- instance : LevelSpellSlots Class.bard sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 2)}
---   | 2 => {(SpellSlot.i, 3)}
---   | 3 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 7 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 1)
---     }
---   | 8 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 2)
---     }
---   | 9 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 1)
---     }
---   | 10 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     }
---   | 11 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 12 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 13 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 14 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 15 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 16 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 17 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 18 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 19 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | _ =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 2)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
--- instance : LevelSpellSlots Class.cleric sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 2)}
---   | 2 => {(SpellSlot.i, 3)}
---   | 3 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 7 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 1)
---     }
---   | 8 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 2)
---     }
---   | 9 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 1)
---     }
---   | 10 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     }
---   | 11 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 12 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 13 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 14 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 15 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 16 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 17 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 18 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 19 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | _ =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 2)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
--- instance : LevelSpellSlots Class.druid sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 2)}
---   | 2 => {(SpellSlot.i, 3)}
---   | 3 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 7 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 1)
---     }
---   | 8 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 2)
---     }
---   | 9 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 1)
---     }
---   | 10 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     }
---   | 11 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 12 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 13 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 14 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 15 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 16 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 17 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 18 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 19 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | _ =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 2)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
--- instance : LevelSpellSlots Class.fighter Subclass.eldritchKnight where
---   levelSpellSlots := fun n => match n with
---   | 3 => {(SpellSlot.i, 2)}
---   | 4 => {(SpellSlot.i, 3)}
---   | 5 => {(SpellSlot.i, 3)}
---   | 6 => {(SpellSlot.i, 3)}
---   | 7 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 8 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 9 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 10 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 11 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 12 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 13 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 14 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 15 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 16 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 17 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 18 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | _ => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
--- instance : LevelSpellSlots Class.paladin sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {}
---   | 2 => {(SpellSlot.i, 2)}
---   | 3 => {(SpellSlot.i, 3)}
---   | 4 => {(SpellSlot.i, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 7 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 8 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 9 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 10 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 11 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 12 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 13 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
---   | 14 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
---   | 15 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 2)}
---   | 16 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 2)}
---   | 17 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 1)}
---   | 18 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 1)}
---   | _ => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 2)}
--- instance : LevelSpellSlots Class.ranger sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {}
---   | 2 => {(SpellSlot.i, 2)}
---   | 3 => {(SpellSlot.i, 3)}
---   | 4 => {(SpellSlot.i, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 7 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 8 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 9 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 10 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 11 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 12 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 13 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
---   | 14 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
---   | 15 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 2)}
---   | 16 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 2)}
---   | 17 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 1)}
---   | 18 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 1)}
---   | _ => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 3), (SpellSlot.v, 2)}
--- instance : LevelSpellSlots Class.rogue Subclass.arcaneTrickster where
---   levelSpellSlots := fun n => match n with
---   | 3 => {(SpellSlot.i, 2)}
---   | 4 => {(SpellSlot.i, 3)}
---   | 5 => {(SpellSlot.i, 3)}
---   | 6 => {(SpellSlot.i, 3)}
---   | 7 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 8 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 9 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 10 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 11 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 12 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 13 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 14 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 15 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 16 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 17 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 18 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | _ => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3), (SpellSlot.iv, 1)}
--- instance : LevelSpellSlots Class.sorcerer sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 2)}
---   | 2 => {(SpellSlot.i, 3)}
---   | 3 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 7 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 1)
---     }
---   | 8 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 2)
---     }
---   | 9 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 1)
---     }
---   | 10 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     }
---   | 11 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 12 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 13 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 14 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 15 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 16 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 17 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 18 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 19 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | _ =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 2)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
--- instance : LevelSpellSlots Class.warlock sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 1)}
---   | 2 => {(SpellSlot.i, 2)}
---   | 3 => {(SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.ii, 2)}
---   | 5 => {(SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.iii, 2)}
---   | 7 => {(SpellSlot.iv, 2)}
---   | 8 => {(SpellSlot.iv, 2)}
---   | 9 => {(SpellSlot.v, 2)}
---   | 10 => {(SpellSlot.v, 2)}
---   | 11 => {(SpellSlot.v, 3)}
---   | 12 => {(SpellSlot.v, 3)}
---   | 13 => {(SpellSlot.v, 3)}
---   | 14 => {(SpellSlot.v, 3)}
---   | 15 => {(SpellSlot.v, 3)}
---   | _ => {(SpellSlot.v, 4)}
--- instance : LevelSpellSlots Class.wizard sub where
---   levelSpellSlots := fun n => match n with
---   | 1 => {(SpellSlot.i, 2)}
---   | 2 => {(SpellSlot.i, 3)}
---   | 3 => {(SpellSlot.i, 4), (SpellSlot.ii, 2)}
---   | 4 => {(SpellSlot.i, 4), (SpellSlot.ii, 3)}
---   | 5 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 2)}
---   | 6 => {(SpellSlot.i, 4), (SpellSlot.ii, 3), (SpellSlot.iii, 3)}
---   | 7 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 1)
---     }
---   | 8 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 2)
---     }
---   | 9 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 1)
---     }
---   | 10 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     }
---   | 11 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 12 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     }
---   | 13 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 14 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     }
---   | 15 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 16 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     }
---   | 17 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 2)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 18 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 1)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | 19 =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 1)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
---   | _ =>
---     { (SpellSlot.i, 4)
---     , (SpellSlot.ii, 3)
---     , (SpellSlot.iii, 3)
---     , (SpellSlot.iv, 3)
---     , (SpellSlot.v, 3)
---     , (SpellSlot.vi, 2)
---     , (SpellSlot.vii, 2)
---     , (SpellSlot.viii, 1)
---     , (SpellSlot.ix, 1)
---     }
--- class Oathed (sub : Subclass Class.paladin)
--- instance : Oathed Subclass.oathOfDevotion where
--- instance : Oathed Subclass.oathOfTheAncients where
--- instance : Oathed Subclass.oathOfTheCrown where
--- instance : Oathed Subclass.oathOfVengeance where
-
---   -- | reaction : Resource cls sub
---   -- | bonusAction : Resource cls sub
---   -- | action : Resource cls sub
---   -- --
---   -- --
--- inductive Resource : (cls : Class) -> Subclass cls -> Type u where
---   | spellSlot : [LevelSpellSlots cls sub] -> SpellSlot -> Resource cls sub
---   | arcaneRecovery : Resource Class.wizard sub
---   | bardicInspiration : Resource Class.bard sub
---   | bladesongPower : Resource Class.wizard Subclass.schoolOfBladesinging
---   | cosmicOmen : Resource Class.druid Subclass.circleOfTheStars
---   | fungalInfestation : Resource Class.druid Subclass.circleOfTheSpores
---   | layOnHands : [Oathed sub] -> Resource Class.paladin sub
---   | naturalRecovery : Resource Class.druid Subclass.circleOfTheLand
---   | rage : Resource Class.barbarian sub
---   | sorceryPoint : Resource Class.sorcerer sub
---   | starMap : Resource Class.druid Subclass.circleOfTheStars
---   | warPriest : Resource Class.cleric Subclass.warDomain
---   | writhingCurrents : Resource Class.ranger Subclass.swarmkeeper
---   --
---   | arcaneArrow : Resource Class.fighter Subclass.arcaneArcher
---   | channelDivinity : Resource Class.cleric sub
---   | channelOath : Resource Class.paladin sub
---   | kiPoint : Resource Class.monk sub
---   | superiorityDie : Resource Class.fighter Subclass.battleMaster
---   | tidesOfChaos : Resource Class.sorcerer Subclass.wildMagicSorcerer
---   | wildShape : Resource Class.druid sub
--- instance cmp : Ord (Resource cls sub) where
---   compare := fun res0 res1 => match res0 with
---   | Resource.spellSlot s => match res1 with
---     | Resource.spellSlot s' => compare s s'
---     | _ => Ordering.lt
---   | Resource.arcaneRecovery => match res1 with
---     | Resource.arcaneRecovery => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.bardicInspiration => match res1 with
---     | Resource.bardicInspiration => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.bladesongPower => match res1 with
---     | Resource.arcaneRecovery => Ordering.gt
---     | Resource.bladesongPower => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.cosmicOmen => match res1 with
---     | Resource.cosmicOmen => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.fungalInfestation => match res1 with
---     | Resource.fungalInfestation => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.layOnHands => match res1 with
---     | Resource.layOnHands => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.naturalRecovery => match res1 with
---     | Resource.naturalRecovery => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.rage => match res1 with
---     | Resource.rage => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.sorceryPoint => match res1 with
---     | Resource.sorceryPoint => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.starMap => match res1 with
---     | Resource.cosmicOmen => Ordering.gt
---     | Resource.starMap => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.warPriest => match res1 with
---     | Resource.warPriest => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.writhingCurrents => match res1 with
---     | Resource.writhingCurrents => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.arcaneArrow => match res1 with
---     | Resource.arcaneArrow => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.channelDivinity => match res1 with
---     | Resource.warPriest => Ordering.gt
---     | Resource.channelDivinity => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.channelOath => match res1 with
---     | Resource.layOnHands => Ordering.gt
---     | Resource.channelOath => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.kiPoint => match res1 with
---     | Resource.kiPoint => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.superiorityDie => match res1 with
---     | Resource.superiorityDie => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.tidesOfChaos => match res1 with
---     | Resource.sorceryPoint => Ordering.gt
---     | Resource.tidesOfChaos => Ordering.eq
---     | _ => Ordering.lt
---   | Resource.wildShape => match res1 with
---     | Resource.cosmicOmen => Ordering.gt
---     | Resource.fungalInfestation => Ordering.gt
---     | Resource.naturalRecovery => Ordering.gt
---     | Resource.starMap => Ordering.gt
---     | Resource.wildShape => Ordering.eq
---     | _ => Ordering.lt
 
 -- inductive Recharge where
 --   | onTurn
