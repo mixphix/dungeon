@@ -18,6 +18,9 @@ inductive Class where
 structure Level where level : Int
   deriving BEq, DecidableEq, Ord, Repr
 
+instance : Add Level where
+  add lvl0 lvl1 := {level := lvl0.level + lvl1.level}
+
 def subclassLevel : Class -> Level :=
   fun cls => match cls with
   | Class.barbarian => {level := 3}
@@ -600,6 +603,12 @@ structure Character where
   name : String
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
+
+def characterLevel : Character -> Level :=
+  fun char =>
+    char.classes.foldl
+      (fun acc _ ci => acc + ci.level)
+      {level := 0}
 
 def effectiveSpellcastingLevel : Character -> Level :=
   fun char =>
