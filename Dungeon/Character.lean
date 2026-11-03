@@ -205,13 +205,7 @@ def classResources : Level -> DOption Class Subclass -> Std.TreeMap Resource Int
     {(Resource.cosmicOmen, leveledResource lvl Resource.cosmicOmen)}
   | DOption.there Class.druid Subclass.circleOfTheSpores =>
     {(Resource.fungalInfestation, leveledResource lvl Resource.fungalInfestation)}
-  | DOption.there Class.paladin Subclass.oathOfDevotion =>
-    {(Resource.layOnHands, leveledResource lvl Resource.layOnHands)}
-  | DOption.there Class.paladin Subclass.oathOfTheAncients =>
-    {(Resource.layOnHands, leveledResource lvl Resource.layOnHands)}
-  | DOption.there Class.paladin Subclass.oathOfTheCrown =>
-    {(Resource.layOnHands, leveledResource lvl Resource.layOnHands)}
-  | DOption.there Class.paladin Subclass.oathOfVengeance =>
+  | DOption.here Class.paladin =>
     {(Resource.layOnHands, leveledResource lvl Resource.layOnHands)}
 
 inductive Feature : Level -> DOption Class Subclass -> Type where
