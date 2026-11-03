@@ -33,7 +33,7 @@ def subclassLevel : Class -> Level :=
   | Class.warlock => {level := 1}
   | Class.wizard => {level := 2}
 
-inductive Subclass : Class -> Type u where
+inductive Subclass : Class -> Type where
   -- Barbarian
   | berserker : Subclass Class.barbarian
   | giant : Subclass Class.barbarian
@@ -255,7 +255,7 @@ def maxresources : Character -> Std.TreeMap Resource Int :=
   fun char =>
     char.classes.foldl
       ( fun acc cls ci => Std.TreeMap.union acc (match ci.subclass with
-        | Option.none => classResources ci.level (DOption.here cls : (DOption Class Subclass : Type))
+        | Option.none => classResources ci.level (DOption.here cls)
         | Option.some sub => classResources ci.level (DOption.there cls sub))
       )
       {(Resource.reaction, 1), (Resource.bonusAction, 1), (Resource.action, 1)}
