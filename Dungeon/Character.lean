@@ -599,10 +599,86 @@ structure ClassInfo (cls : Class) where
   level : Level
   subclass : Option (Subclass cls)
 
+inductive Recharge where
+  | onTurn
+  | onShortRest
+  | onLongRest
+  deriving BEq, DecidableEq, Ord, Repr
+
+def classResourceRecharge : Resource -> Recharge :=
+  fun res => match res with
+  | Resource.reaction => Recharge.onTurn
+  | Resource.bonusAction => Recharge.onTurn
+  | Resource.action => Recharge.onTurn
+  --
+  | Resource.spellSlot _ => Recharge.onLongRest
+  | Resource.warlockSpellSlot _ => Recharge.onShortRest
+  --
+  | Resource.arcaneRecovery => Recharge.onLongRest
+  | Resource.bardicInspiration => Recharge.onLongRest
+  | Resource.bladesongPower => Recharge.onLongRest
+  | Resource.cosmicOmen => Recharge.onLongRest
+  | Resource.fungalInfestation => Recharge.onLongRest
+  | Resource.layOnHands => Recharge.onLongRest
+  | Resource.naturalRecovery => Recharge.onLongRest
+  | Resource.rage => Recharge.onLongRest
+  | Resource.sorceryPoint => Recharge.onLongRest
+  | Resource.starMap => Recharge.onLongRest
+  | Resource.warPriest => Recharge.onLongRest
+  | Resource.writhingCurrents => Recharge.onLongRest
+  --
+  | Resource.arcaneArrow => Recharge.onShortRest
+  | Resource.channelDivinity => Recharge.onShortRest
+  | Resource.channelOath => Recharge.onShortRest
+  | Resource.kiPoint => Recharge.onShortRest
+  | Resource.superiorityDie => Recharge.onShortRest
+  | Resource.tidesOfChaos => Recharge.onShortRest
+  | Resource.wildShape => Recharge.onShortRest
+
+inductive Ability where
+  | strength
+  | dexterity
+  | constitution
+  | intelligence
+  | wisdom
+  | charisma
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Skill : Ability -> Type where
+  | acrobatics : Skill Ability.dexterity
+  | animalHandling : Skill Ability.wisdom
+  | arcana : Skill Ability.intelligence
+  | athletics : Skill Ability.strength
+  | deception : Skill Ability.charisma
+  | history : Skill Ability.intelligence
+  | insight : Skill Ability.wisdom
+  | intimidation : Skill Ability.charisma
+  | investigation : Skill Ability.intelligence
+  | medicine : Skill Ability.wisdom
+  | nature : Skill Ability.intelligence
+  | perception : Skill Ability.wisdom
+  | performance : Skill Ability.charisma
+  | persuasion : Skill Ability.charisma
+  | religion : Skill Ability.intelligence
+  | sleightOfHand : Skill Ability.dexterity
+  | stealth : Skill Ability.dexterity
+  | survival : Skill Ability.wisdom
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Proficiency where
+  | proficiency
+  | expertise
+  deriving BEq, DecidableEq, Ord, Repr
+
+structure Skills (ab : Ability) where
+  score : Nat
+  proficiencies : Std.TreeMap (Skill ab) Proficiency
+
 structure Character where
   name : String
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
+  abilityScores : Std.DTreeMap Ability Skills
 
 def characterLevel : Character -> Level :=
   fun char =>
@@ -665,79 +741,34 @@ def maxresources : Character -> Std.TreeMap Resource Int :=
           Class.fighter
           {level := {level := 6}, subclass := Option.some Subclass.eldritchKnight}
     , resources := {}
+    , abilityScores :=
+        Std.DTreeMap.insert
+          ( Std.DTreeMap.insert
+            ( Std.DTreeMap.insert
+              ( Std.DTreeMap.insert
+                ( Std.DTreeMap.insert
+                  ( Std.DTreeMap.insert
+                    {}
+                    Ability.strength
+                    {score := 13, proficiencies := {(Skill.athletics, Proficiency.proficiency)}}
+                  )
+                  Ability.dexterity
+                  {score := 8, proficiencies := {(Skill.stealth, Proficiency.proficiency)}}
+                )
+                Ability.constitution
+                {score := 10, proficiencies := {}}
+              )
+              Ability.intelligence
+              {score := 17, proficiencies := {(Skill.arcana, Proficiency.expertise)}}
+            )
+            Ability.wisdom
+            { score := 15, proficiencies :=
+              { (Skill.perception, Proficiency.proficiency)
+              , (Skill.insight, Proficiency.proficiency)
+              }
+            }
+          )
+          Ability.charisma
+          {score := 12, proficiencies := {(Skill.deception, Proficiency.proficiency)}}
     }
   )
-
--- inductive Recharge where
---   | onTurn
---   | onShortRest
---   | onLongRest
---   deriving BEq, DecidableEq, Ord, Repr
-
--- def classResourceRecharge : Resource cls sub -> Recharge :=
---   fun res => match res with
---   | Resource.spellSlot _ => match cls with
---     | Class.warlock => Recharge.onShortRest
---     | _ => Recharge.onLongRest
---   | Resource.arcaneRecovery => Recharge.onLongRest
---   | Resource.bardicInspiration => Recharge.onLongRest
---   | Resource.bladesongPower => Recharge.onLongRest
---   | Resource.cosmicOmen => Recharge.onLongRest
---   | Resource.fungalInfestation => Recharge.onLongRest
---   | Resource.layOnHands => Recharge.onLongRest
---   | Resource.naturalRecovery => Recharge.onLongRest
---   | Resource.rage => Recharge.onLongRest
---   | Resource.sorceryPoint => Recharge.onLongRest
---   | Resource.starMap => Recharge.onLongRest
---   | Resource.warPriest => Recharge.onLongRest
---   | Resource.writhingCurrents => Recharge.onLongRest
---   --
---   | Resource.arcaneArrow => Recharge.onShortRest
---   | Resource.channelDivinity => Recharge.onShortRest
---   | Resource.channelOath => Recharge.onShortRest
---   | Resource.kiPoint => Recharge.onShortRest
---   | Resource.superiorityDie => Recharge.onShortRest
---   | Resource.tidesOfChaos => Recharge.onShortRest
---   | Resource.wildShape => Recharge.onShortRest
-
--- structure ClassInfo (cls : Class) where
---   level : Nat
---   subclass : Subclass cls
-
--- inductive Ability where
---   | strength
---   | dexterity
---   | constitution
---   | intelligence
---   | wisdom
---   | charisma
---   deriving BEq, DecidableEq, Ord, Repr
-
--- inductive Skill : Ability -> Type u where
---   | acrobatics : Skill Ability.dexterity
---   | animalHandling : Skill Ability.wisdom
---   | arcana : Skill Ability.intelligence
---   | athletics : Skill Ability.strength
---   | deception : Skill Ability.charisma
---   | history : Skill Ability.intelligence
---   | insight : Skill Ability.wisdom
---   | intimidation : Skill Ability.charisma
---   | investigation : Skill Ability.intelligence
---   | medicine : Skill Ability.wisdom
---   | nature : Skill Ability.intelligence
---   | perception : Skill Ability.wisdom
---   | performance : Skill Ability.charisma
---   | persuasion : Skill Ability.charisma
---   | religion : Skill Ability.intelligence
---   | sleightOfHand : Skill Ability.dexterity
---   | stealth : Skill Ability.dexterity
---   | survival : Skill Ability.wisdom
---   deriving BEq, DecidableEq, Ord, Repr
-
--- structure Character where
---   name : String
---   classInfo : Std.DTreeMap Class ClassInfo
---   baseAbilityScores : Std.TreeMap Ability Nat
-
--- def level : Character -> Nat :=
---   fun char => char.classInfo.foldl (fun acc _cls ci => acc + ci.level) 0
