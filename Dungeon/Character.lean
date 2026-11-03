@@ -231,6 +231,8 @@ def classResources : Level -> DOption Class Subclass -> Std.TreeMap Resource Int
     {(Resource.tidesOfChaos, 1)}
   | DOption.here Class.druid =>
     {(Resource.wildShape, 2)}
+  | DOption.there Class.rogue Subclass.thief =>
+    {(Resource.bonusAction, 1)}
   | _ => {}
 
 inductive Feature : Level -> DOption Class Subclass -> Type where
@@ -254,7 +256,7 @@ structure Character where
 def maxresources : Character -> Std.TreeMap Resource Int :=
   fun char =>
     char.classes.foldl
-      ( fun acc cls ci => Std.TreeMap.union acc (match ci.subclass with
+      ( fun acc cls ci => Std.TreeMap.mergeWith (fun _ b b' => b + b') acc (match ci.subclass with
         | Option.none => classResources ci.level (DOption.here cls)
         | Option.some sub => classResources ci.level (DOption.there cls sub))
       )
