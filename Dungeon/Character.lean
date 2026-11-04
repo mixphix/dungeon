@@ -127,6 +127,7 @@ inductive Resource where
   | cosmicOmen
   | fungalInfestation
   | layOnHands
+  | lucky
   | naturalRecovery
   | rage
   | sorceryPoint
@@ -160,6 +161,7 @@ def leveledResource : Int -> Resource -> Int :=
       if lv < 6 then 0 else 4
   | .layOnHands =>
       if lv < 4 then 4 else if lv < 10 then 5 else 6
+  | .lucky => 3
   | .naturalRecovery => lv / 2
   | .rage =>
       if lv < 3 then 2 else if lv < 6 then 6 else if lv < 12 then 4 else 5
@@ -590,7 +592,7 @@ def classResources : Int -> DSpecify Class Subclass -> Std.TreeMap Resource Int 
   | _ => {}
 
 structure ClassInfo (cls : Class) where
-  level : Int
+  level : Nat
   subclass : (level >= subclassLevel cls) -> Subclass cls
 
 inductive Recharge where
@@ -614,6 +616,7 @@ def classResourceRecharge : Resource -> Recharge :=
   | .cosmicOmen => .onLongRest
   | .fungalInfestation => .onLongRest
   | .layOnHands => .onLongRest
+  | .lucky => .onLongRest
   | .naturalRecovery => .onLongRest
   | .rage => .onLongRest
   | .sorceryPoint => .onLongRest
@@ -666,20 +669,101 @@ inductive Proficiency where
 
 structure Skills (ab : Ability) where
   score : Nat
+  modifier : Nat
   proficiencies : Std.TreeMap (Skill ab) Proficiency
+
+inductive Damage where
+  | bludgeoning
+  | piercing
+  | slashing
+  | acid
+  | cold
+  | fire
+  | force
+  | lightning
+  | necrotic
+  | poison
+  | psychic
+  | radiant
+  | thunder
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive DamageSource where
+  | nonmagical
+  | magical
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Resistance where
+  | vulnerability
+  | resistance : DamageSource -> Resistance
+  | immunity : DamageSource -> Resistance
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Feat where
+  | abilityImprovement : Ability -> Ability -> Feat
+  | actor
+  | alert
+  | athleteStrength
+  | athleteDexterity
+  | charger
+  | crossbowExpert
+  | defensiveDuellist
+  | dualWielder
+  | dungeonDelver
+  | durable
+  | elementalAdeptAcid
+  | elementalAdeptCold
+  | elementalAdeptFire
+  | elementalAdeptLightning
+  | elementalAdeptThunder
+  | greatWeaponMaster
+  | heavilyArmoured
+  | heavyArmourMaster
+  | lightlyArmouredStrength
+  | lightlyArmouredDexterity
+  | lucky
+  | mageSlayer
+  | magicInitiateBard
+  | magicInitiateCleric
+  | magicInitiateDruid
+  | magicInitiateSorcerer
+  | magicInitiateWarlock
+  | magicInitiateWizard
+  | martialAdept
+  | mediumArmourMaster
+  | mobile
+  | moderatelyArmouredStrength
+  | moderatelyArmouredDexterity
+  | performer
+  | polearmMaster
+  | resilient : Ability -> Feat
+  | ritualCaster
+  | savageAttacker
+  | sentinel
+  | sharpshooter
+  | shieldMaster
+  | skilled : Skill a -> Skill b -> Skill c -> Feat
+  | spellSniper
+  | tavernBrawlerStrength
+  | tavernBrawlerConstitution
+  | tough
+  | warCaster
+  | weaponMasterStrength
+  | weaponMasterDexterity
 
 structure Character where
   name : String
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
   skills : Std.DTreeMap Ability Skills
+  feats : List Feat
 
 def characterLevel : Character -> Int :=
   fun char => char.classes.foldl (fun acc _ ci => acc + ci.level) 0
 
 def effectiveSpellcastingLevel : Character -> Int :=
   fun char =>
-    ( char.classes.foldl
+    char.classes.foldl
       ( fun acc cls ci => match cls with
         | .barbarian => acc
         | .bard => acc + ci.level * 6
@@ -705,7 +789,7 @@ def effectiveSpellcastingLevel : Character -> Int :=
         | .wizard => acc + ci.level * 6
       )
       0
-    ) / 6
+      / 6
 
 def maxresources : Character -> Std.TreeMap Resource Int :=
   fun char =>
@@ -728,6 +812,80 @@ def maxresources : Character -> Std.TreeMap Resource Int :=
       )
       (fullCaster (effectiveSpellcastingLevel char))
 
+def scores : Character -> Std.TreeMap Ability Nat :=
+  fun char =>
+    let base :=
+          char.skills.foldl
+            (fun acc ab skills => Std.TreeMap.union acc {(ab, skills.score + skills.modifier)})
+            {}
+    let fromFeats :=
+          char.feats.foldl
+            ( fun acc feat =>
+              Std.TreeMap.union
+                acc
+                ( match feat with
+                  | .abilityImprovement ab0 ab1 =>
+                    Std.TreeMap.mergeWith
+                      (fun _ => Add.add)
+                      {(ab0, 1)}
+                      {(ab1, 1)}
+                  | .actor => {(.charisma, 1)}
+                  | .alert => {}
+                  | .athleteStrength => {(.strength, 1)}
+                  | .athleteDexterity => {(.dexterity, 1)}
+                  | .charger => {}
+                  | .crossbowExpert => {}
+                  | .defensiveDuellist => {}
+                  | .dualWielder => {}
+                  | .dungeonDelver => {}
+                  | .durable => {(.constitution, 1)}
+                  | .elementalAdeptAcid => {}
+                  | .elementalAdeptCold => {}
+                  | .elementalAdeptFire => {}
+                  | .elementalAdeptLightning => {}
+                  | .elementalAdeptThunder => {}
+                  | .greatWeaponMaster => {}
+                  | .heavilyArmoured => {(.strength, 1)}
+                  | .heavyArmourMaster => {(.strength, 1)}
+                  | .lightlyArmouredStrength => {(.strength, 1)}
+                  | .lightlyArmouredDexterity => {(.dexterity, 1)}
+                  | .lucky => {}
+                  | .mageSlayer => {}
+                  | .magicInitiateBard => {}
+                  | .magicInitiateCleric => {}
+                  | .magicInitiateDruid => {}
+                  | .magicInitiateSorcerer => {}
+                  | .magicInitiateWarlock => {}
+                  | .magicInitiateWizard => {}
+                  | .martialAdept => {}
+                  | .mediumArmourMaster => {}
+                  | .mobile => {}
+                  | .moderatelyArmouredStrength => {(.strength, 1)}
+                  | .moderatelyArmouredDexterity => {(.dexterity, 1)}
+                  | .performer => {(.charisma, 1)}
+                  | .polearmMaster => {}
+                  | .resilient ab => {(ab, 1)}
+                  | .ritualCaster => {}
+                  | .savageAttacker => {}
+                  | .sentinel => {}
+                  | .sharpshooter => {}
+                  | .shieldMaster => {}
+                  | .skilled _ _ _ => {}
+                  | .spellSniper => {}
+                  | .tavernBrawlerStrength => {(.strength, 1)}
+                  | .tavernBrawlerConstitution => {(.constitution, 1)}
+                  | .tough => {}
+                  | .warCaster => {}
+                  | .weaponMasterStrength => {(.strength, 1)}
+                  | .weaponMasterDexterity => {(.dexterity, 1)}
+                )
+            )
+            {}
+  Std.TreeMap.mergeWith
+      (fun _ score0 score1 => min 20 (score0 + score1))
+      base
+      fromFeats
+
 def melanie : Character where
   name := "Melanie"
   classes :=
@@ -736,18 +894,19 @@ def melanie : Character where
     }
   resources := {}
   skills :=
-    { ⟨.strength, {score := 13, proficiencies := {(.athletics, .proficiency)}}⟩
-    , ⟨.dexterity, {score := 8, proficiencies := {(.stealth, .proficiency)}}⟩
-    , ⟨.constitution, {score := 10, proficiencies := {}}⟩
-    , ⟨.intelligence, {score := 17, proficiencies := {(.arcana, .expertise)}}⟩
+    { ⟨.strength, {score := 13, modifier := 0, proficiencies := {(.athletics, .proficiency)}}⟩
+    , ⟨.dexterity, {score := 8, modifier := 0, proficiencies := {(.stealth, .proficiency)}}⟩
+    , ⟨.constitution, {score := 10, modifier := 0, proficiencies := {}}⟩
+    , ⟨.intelligence, {score := 15, modifier := 2, proficiencies := {(.arcana, .expertise)}}⟩
     , ⟨.wisdom
-      , { score := 15, proficiencies :=
+      , { score := 14, modifier := 1, proficiencies :=
           { (.perception, .proficiency)
           , (.insight, .proficiency)
           }
         }
       ⟩
-    , ⟨.charisma, {score := 12, proficiencies := {(.deception, .proficiency)}}⟩
+    , ⟨.charisma, {score := 12, modifier := 0, proficiencies := {(.deception, .proficiency)}}⟩
     }
+  feats := [.abilityImprovement .intelligence .intelligence]
 
-#eval maxresources melanie
+#eval scores melanie
