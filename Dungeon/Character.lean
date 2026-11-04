@@ -1,9 +1,311 @@
 import Std.Data.TreeMap.Basic
 
+inductive Deity where
+  | bahamut
+  | corellonLarethian
+  | eilistraee
+  | garlGlittergold
+  | gruumsh
+  | helm
+  | ilmater
+  | kelemvor
+  | laduguer
+  | lathander
+  | lolth
+  | mielikki
+  | moradin
+  | mystra
+  | oghma
+  | selûne
+  | shar
+  | talos
+  | tempus
+  | tiamat
+  | tymora
+  | tyr
+  | vlaakith
+  | yondalla
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Creature where
+  | aberration
+  | beast
+  | celestial
+  | construct
+  | dragon
+  | elemental
+  | fey
+  | fiend
+  | giant
+  | humanoid
+  | monstrosity
+  | ooze
+  | plant
+  | undead
+  deriving BEq, DecidableEq, Ord, Repr
+
+inductive Race : Creature -> Type where
+  -- Aberrations
+  | aboleth : Race .aberration
+  | beholder : Race .aberration
+  | elderBrain : Race .aberration
+  | flumph : Race .aberration
+  | hookHorror : Race .aberration
+  | illithid : Race .aberration
+  | intellectDevourer : Race .aberration
+  | kuoToa : Race .aberration
+  | phasm : Race .aberration
+  | spectator : Race .aberration
+  | yuanTi : Race .aberration
+  -- Beasts
+  | alligator : Race .beast
+  | ant : Race .beast
+  | ape : Race .beast
+  | aurochs : Race .beast
+  | baboon : Race .beast
+  | badger : Race .beast
+  | bat : Race .beast
+  | bear : Race .beast
+  | beaver : Race .beast
+  | bird : Race .beast
+  | boar : Race .beast
+  | buffalo : Race .beast
+  | camel : Race .beast
+  | caribou : Race .beast
+  | cat : Race .beast
+  | centipede : Race .beast
+  | cow : Race .beast
+  | crab : Race .beast
+  | crocodile : Race .beast
+  | deer : Race .beast
+  | dolphin : Race .beast
+  | dog : Race .beast
+  | eagle : Race .beast
+  | elephant : Race .beast
+  | elk : Race .beast
+  | falcon : Race .beast
+  | fish : Race .beast
+  | fox : Race .beast
+  | frog : Race .beast
+  | goat : Race .beast
+  | goose : Race .beast
+  | hare : Race .beast
+  | hawk : Race .beast
+  | horse : Race .beast
+  | hyena : Race .beast
+  | jackal : Race .beast
+  | jaguar : Race .beast
+  | leech : Race .beast
+  | leopard : Race .beast
+  | lion : Race .beast
+  | lizard : Race .beast
+  | mammoth : Race .beast
+  | moose : Race .beast
+  | nautilus : Race .beast
+  | octopus : Race .beast
+  | otter : Race .beast
+  | owl : Race .beast
+  | ox : Race .beast
+  | panther : Race .beast
+  | pig : Race .beast
+  | rat : Race .beast
+  | rhinoceros : Race .beast
+  | rothé : Race .beast
+  | scorpion : Race .beast
+  | shark : Race .beast
+  | sheep : Race .beast
+  | snake : Race .beast
+  | spider : Race .beast
+  | tiger : Race .beast
+  | toad : Race .beast
+  | turtle : Race .beast
+  | walrus : Race .beast
+  | weasel : Race .beast
+  | wolf : Race .beast
+  | yak : Race .beast
+  -- Celestials
+  | angel : Race .celestial
+  | avoral : Race .celestial
+  | guardinal : Race .celestial
+  | hollyphant : Race .celestial
+  | kiRin : Race .celestial
+  | pegasus : Race .celestial
+  | unicorn : Race .celestial
+  -- Constructs
+  | animatedArmour : Race .construct
+  | flyingWeapon : Race .construct
+  | golem : Race .construct
+  | guardianPortrait : Race .construct
+  | homonculus : Race .construct
+  | inevitable : Race .construct
+  | livingSpell : Race .construct
+  | magen : Race .construct
+  | modron : Race .construct
+  | retriever : Race .construct
+  | scarecrow : Race .construct
+  | steelWatcher : Race .construct
+  -- Dragons
+  | chromatic : Race .dragon
+  | ferrous : Race .dragon
+  | gem : Race .dragon
+  | kobold : Race .dragon
+  | metal : Race .dragon
+  -- Elementals
+  | elemental : Race .elemental
+  | genie : Race .elemental
+  | mephit : Race .elemental
+  | myrmidon : Race .elemental
+  | phoenix : Race .elemental
+  | salamander : Race .elemental
+  | weird : Race .elemental
+  -- Fey
+  | almiraj : Race .fey
+  | blinkDog : Race .fey
+  | boggle : Race .fey
+  | brownie : Race .fey
+  | centaur : Race .fey
+  | dryad : Race .fey
+  | gremlin : Race .fey
+  | hag : Race .fey
+  | killmoulis : Race .fey
+  | leprechaun : Race .fey
+  | meenlock : Race .fey
+  | naiad : Race .fey
+  | nereid : Race .fey
+  | nymph : Race .fey
+  | oread : Race .fey
+  | redcap : Race .fey
+  | satyr : Race .fey
+  | spriggan : Race .fey
+  | sprite : Race .fey
+  | willowisp : Race .fey
+  -- Fiends
+  | demodand : Race .fiend
+  | demon : Race .fiend
+  | devil : Race .fiend
+  | hellhound : Race .fiend
+  | hellsboar : Race .fiend
+  | imp : Race .fiend
+  | nightHag : Race .fiend
+  | yugoloth : Race .fiend
+  -- Giants
+  | cloud : Race .giant
+  | cyclops : Race .giant
+  | ettin : Race .giant
+  | fire : Race .giant
+  | frost : Race .giant
+  | hill : Race .giant
+  | ogre : Race .giant
+  | stone : Race .giant
+  | storm : Race .giant
+  | troll : Race .giant
+  -- Humanoids
+  | aarakocra : Race .humanoid
+  | aasimar : Race .humanoid
+  | bugbear : Race .humanoid
+  | bullywug : Race .humanoid
+  | changeling : Race .humanoid
+  | dragonborn : Race .humanoid
+  | dwarf : Race .humanoid
+  | elf : Race .humanoid
+  | firbolg : Race .humanoid
+  | genasi : Race .humanoid
+  | giff : Race .humanoid
+  | gith : Race .humanoid
+  | gnoll : Race .humanoid
+  | gnome : Race .humanoid
+  | goblin : Race .humanoid
+  | halfElf : Race .humanoid
+  | halfling : Race .humanoid
+  | halfOrc : Race .humanoid
+  | hobgoblin : Race .humanoid
+  | human : Race .humanoid
+  | lizardfolk : Race .humanoid
+  | meazel : Race .humanoid
+  | merfolk : Race .humanoid
+  | orc : Race .humanoid
+  | sahuagin : Race .humanoid
+  | tabaxi : Race .humanoid
+  | tiefling : Race .humanoid
+  | tortle : Race .humanoid
+  | triton : Race .humanoid
+  | warforged : Race .humanoid
+  | xvart : Race .humanoid
+  -- Monstrosities
+  | basilisk : Race .monstrosity
+  | bulette : Race .monstrosity
+  | chimera : Race .monstrosity
+  | cockatrice : Race .monstrosity
+  | displacer : Race .monstrosity
+  | doppelganger : Race .monstrosity
+  | drider : Race .monstrosity
+  | ettercap : Race .monstrosity
+  | gremishka : Race .monstrosity
+  | griffon : Race .monstrosity
+  | hydra : Race .monstrosity
+  | kraken : Race .monstrosity
+  | lamia : Race .monstrosity
+  | lycanthrope : Race .monstrosity
+  | manticore : Race .monstrosity
+  | medusa : Race .monstrosity
+  | mimic : Race .monstrosity
+  | minotaur : Race .monstrosity
+  | naga : Race .monstrosity
+  | owlbear : Race .monstrosity
+  | phaseSpider : Race .monstrosity
+  | purpleWorm : Race .monstrosity
+  | quaggoth : Race .monstrosity
+  | sphinx : Race .monstrosity
+  | tressym : Race .monstrosity
+  | troglodyte : Race .monstrosity
+  | worg : Race .monstrosity
+  | yeti : Race .monstrosity
+  -- Oozes
+  | athcoid : Race .ooze
+  | blackPudding : Race .ooze
+  | greaseball : Race .ooze
+  | greenSlime : Race .ooze
+  | greyOoze : Race .ooze
+  | ochreJelly : Race .ooze
+  -- Plants
+  | blight : Race .plant
+  | campestri : Race .plant
+  | kelpie : Race .plant
+  | myconid : Race .plant
+  | sporeServant : Race .plant
+  | treant : Race .plant
+  | vegepygmy : Race .plant
+  | violetFungus : Race .plant
+  | woodWoad : Race .plant
+  -- Undead
+  | banshee : Race .undead
+  | bodak : Race .undead
+  | boneclaw : Race .undead
+  | brainJar : Race .undead
+  | deathKnight : Race .undead
+  | deathShepherd : Race .undead
+  | deathTyrant : Race .undead
+  | devourer : Race .undead
+  | flameskull : Race .undead
+  | ghost : Race .undead
+  | ghoul : Race .undead
+  | lich : Race .undead
+  | mummy : Race .undead
+  | nightwalker : Race .undead
+  | poltergeist : Race .undead
+  | revenant : Race .undead
+  | shadow : Race .undead
+  | skeleton : Race .undead
+  | spectre : Race .undead
+  | vampire : Race .undead
+  | vampireSpawn : Race .undead
+  | wight : Race .undead
+  | zombie : Race .undead
+
 inductive Class where
   | barbarian
   | bard
-  | cleric
+  | cleric : Deity -> Class
   | druid
   | fighter
   | monk
@@ -19,7 +321,7 @@ def subclassLevel : Class -> Int :=
   fun cls => match cls with
   | .barbarian => 3
   | .bard => 3
-  | .cleric => 1
+  | .cleric _ => 1
   | .druid => 3
   | .fighter => 3
   | .monk => 3
@@ -42,14 +344,14 @@ inductive Subclass : Class -> Type where
   | collegeOfSwords : Subclass .bard
   | collegeOfValour : Subclass .bard
   -- Cleric
-  | deathDomain : Subclass .cleric
-  | knowledgeDomain : Subclass .cleric
-  | lifeDomain : Subclass .cleric
-  | lightDomain : Subclass .cleric
-  | natureDomain : Subclass .cleric
-  | tempestDomain : Subclass .cleric
-  | trickeryDomain : Subclass .cleric
-  | warDomain : Subclass .cleric
+  | deathDomain : Subclass (.cleric deity)
+  | knowledgeDomain : Subclass (.cleric deity)
+  | lifeDomain : Subclass (.cleric deity)
+  | lightDomain : Subclass (.cleric deity)
+  | natureDomain : Subclass (.cleric deity)
+  | tempestDomain : Subclass (.cleric deity)
+  | trickeryDomain : Subclass (.cleric deity)
+  | warDomain : Subclass (.cleric deity)
   -- Druid
   | circleOfTheLand : Subclass .druid
   | circleOfTheMoon : Subclass .druid
@@ -534,7 +836,7 @@ def warlockSpells : Int -> Std.TreeMap Resource Int :=
 def leveledSpellSlots : Int -> DSpecify Class Subclass -> Std.TreeMap Resource Int :=
   fun lvl dspecify => match dspecify with
   | .sans .bard => fullCaster lvl
-  | .sans .cleric => fullCaster lvl
+  | .sans (.cleric _) => fullCaster lvl
   | .sans .druid => fullCaster lvl
   | .sans .paladin => halfCaster lvl
   | .sans .ranger => halfCaster lvl
@@ -569,13 +871,13 @@ def classResources : Int -> DSpecify Class Subclass -> Std.TreeMap Resource Int 
     {(.rage, leveledResource lvl .rage)}
   | .sans .sorcerer =>
     {(.sorceryPoint, leveledResource lvl .sorceryPoint)}
-  | .avec .cleric .warDomain =>
+  | .avec (.cleric _) .warDomain =>
     {(.warPriest, leveledResource lvl .warPriest)}
   | .avec .ranger .swarmkeeper =>
     {(.writhingCurrents, leveledResource lvl .writhingCurrents)}
   | .avec .fighter .arcaneArcher =>
     {(.arcaneArrow, leveledResource lvl .arcaneArrow)}
-  | .sans .cleric =>
+  | .sans (.cleric _) =>
     {(.channelDivinity, leveledResource lvl .channelDivinity)}
   | .sans .monk =>
     {(.kiPoint, leveledResource lvl .kiPoint)}
@@ -767,7 +1069,7 @@ def effectiveSpellcastingLevel : Character -> Int :=
       ( fun acc cls ci => match cls with
         | .barbarian => acc
         | .bard => acc + ci.level * 6
-        | .cleric => acc + ci.level * 6
+        | .cleric _ => acc + ci.level * 6
         | .druid => acc + ci.level * 6
         | .fighter => acc +
           if h : ci.level >= subclassLevel .fighter
