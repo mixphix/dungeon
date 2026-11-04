@@ -886,6 +886,11 @@ def scores : Character -> Std.TreeMap Ability Nat :=
       base
       fromFeats
 
+def carryingCapacity : Character -> Int :=
+  fun char =>
+    let strength := ((scores char).get? .strength).getD 0
+    40 + 10 * strength
+
 def melanie : Character where
   name := "Melanie"
   classes :=
@@ -909,4 +914,4 @@ def melanie : Character where
     }
   feats := [.abilityImprovement .intelligence .intelligence]
 
-#eval scores melanie
+#eval carryingCapacity melanie
