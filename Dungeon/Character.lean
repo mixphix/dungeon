@@ -55,7 +55,6 @@ inductive Race : Creature -> Type where
   | intellectDevourer : Race .aberration
   | kuoToa : Race .aberration
   | phasm : Race .aberration
-  | spectator : Race .aberration
   | yuanTi : Race .aberration
   -- Beasts
   | alligator : Race .beast
@@ -74,23 +73,21 @@ inductive Race : Creature -> Type where
   | caribou : Race .beast
   | cat : Race .beast
   | centipede : Race .beast
+  | cougar : Race .beast
   | cow : Race .beast
   | crab : Race .beast
   | crocodile : Race .beast
   | deer : Race .beast
   | dolphin : Race .beast
   | dog : Race .beast
-  | eagle : Race .beast
+  | donkey : Race .beast
   | elephant : Race .beast
   | elk : Race .beast
-  | falcon : Race .beast
   | fish : Race .beast
   | fox : Race .beast
   | frog : Race .beast
   | goat : Race .beast
-  | goose : Race .beast
   | hare : Race .beast
-  | hawk : Race .beast
   | horse : Race .beast
   | hyena : Race .beast
   | jackal : Race .beast
@@ -101,10 +98,10 @@ inductive Race : Creature -> Type where
   | lizard : Race .beast
   | mammoth : Race .beast
   | moose : Race .beast
+  | mouse : Race .beast
   | nautilus : Race .beast
   | octopus : Race .beast
   | otter : Race .beast
-  | owl : Race .beast
   | ox : Race .beast
   | panther : Race .beast
   | pig : Race .beast
@@ -112,7 +109,6 @@ inductive Race : Creature -> Type where
   | rhinoceros : Race .beast
   | rothé : Race .beast
   | scorpion : Race .beast
-  | shark : Race .beast
   | sheep : Race .beast
   | snake : Race .beast
   | spider : Race .beast
@@ -125,7 +121,6 @@ inductive Race : Creature -> Type where
   | yak : Race .beast
   -- Celestials
   | angel : Race .celestial
-  | avoral : Race .celestial
   | guardinal : Race .celestial
   | hollyphant : Race .celestial
   | kiRin : Race .celestial
@@ -136,7 +131,7 @@ inductive Race : Creature -> Type where
   | flyingWeapon : Race .construct
   | golem : Race .construct
   | guardianPortrait : Race .construct
-  | homonculus : Race .construct
+  | homunculus : Race .construct
   | inevitable : Race .construct
   | livingSpell : Race .construct
   | magen : Race .construct
@@ -145,11 +140,10 @@ inductive Race : Creature -> Type where
   | scarecrow : Race .construct
   | steelWatcher : Race .construct
   -- Dragons
-  | chromatic : Race .dragon
-  | ferrous : Race .dragon
-  | gem : Race .dragon
+  | chromaticDragon : Race .dragon
+  | gemDragon : Race .dragon
   | kobold : Race .dragon
-  | metal : Race .dragon
+  | metallicDragon : Race .dragon
   -- Elementals
   | elemental : Race .elemental
   | genie : Race .elemental
@@ -185,19 +179,17 @@ inductive Race : Creature -> Type where
   | devil : Race .fiend
   | hellhound : Race .fiend
   | hellsboar : Race .fiend
-  | imp : Race .fiend
-  | nightHag : Race .fiend
   | yugoloth : Race .fiend
   -- Giants
-  | cloud : Race .giant
+  | cloudGiant : Race .giant
   | cyclops : Race .giant
-  | ettin : Race .giant
-  | fire : Race .giant
-  | frost : Race .giant
-  | hill : Race .giant
+  | ettinGiant : Race .giant
+  | fireGiant : Race .giant
+  | frostGiant : Race .giant
+  | hillGiant : Race .giant
   | ogre : Race .giant
-  | stone : Race .giant
-  | storm : Race .giant
+  | stoneGiant : Race .giant
+  | stormGiant : Race .giant
   | troll : Race .giant
   -- Humanoids
   | aarakocra : Race .humanoid
@@ -301,6 +293,822 @@ inductive Race : Creature -> Type where
   | vampireSpawn : Race .undead
   | wight : Race .undead
   | zombie : Race .undead
+
+inductive Subrace : Race c -> Type where
+  -- Aberrations
+  --
+  | aboleth : Subrace .aboleth
+  --
+  | director : Subrace .beholder
+  | elderOrb : Subrace .beholder
+  | gauth : Subrace .beholder
+  | gazer : Subrace .beholder
+  | hiveMother : Subrace .beholder
+  | observer : Subrace .beholder
+  | spectator : Subrace .beholder
+  --
+  | elderBrain : Subrace .elderBrain
+  | netherBrain : Subrace .elderBrain
+  --
+  | flumph : Subrace .flumph
+  --
+  | hookHorror : Subrace .hookHorror
+  --
+  | illithid : Subrace .illithid
+  | ulitharid : Subrace .illithid
+  --
+  | intellectDevourer : Subrace .intellectDevourer
+  --
+  | kuoToa : Subrace .kuoToa
+  --
+  | phasm : Subrace .phasm
+  --
+  | pureblood : Subrace .yuanTi
+  | halfblood : Subrace .yuanTi
+  | abomination : Subrace .yuanTi
+  | anathema : Subrace .yuanTi
+  --
+  -- Beasts
+  --
+  | alligator : Subrace .alligator
+  --
+  | ant : Subrace .ant
+  | giantAnt : Subrace .ant
+  --
+  | ape : Subrace .ape
+  --
+  | aurochs : Subrace .aurochs
+  --
+  | baboon : Subrace .baboon
+  --
+  | badger : Subrace .baboon
+  --
+  | bat : Subrace .bat
+  | giantBat : Subrace .bat
+  --
+  | brownBear : Subrace .bear
+  | blackBear : Subrace .bear
+  | caveBear : Subrace .bear
+  | grizzlyBear : Subrace .bear
+  --
+  | beaver : Subrace .beaver
+  --
+  | albatross : Subrace .bird
+  | axeBeak : Subrace .bird
+  | blueJay : Subrace .bird
+  | bluebird : Subrace .bird
+  | canary : Subrace .bird
+  | chicken : Subrace .bird
+  | cormorant : Subrace .bird
+  | crow : Subrace .bird
+  | dove : Subrace .bird
+  | eagle : Subrace .bird
+  | giantEagle : Subrace .bird
+  | emu : Subrace .bird
+  | falcon : Subrace .bird
+  | finch : Subrace .bird
+  | flamingo : Subrace .bird
+  | goose : Subrace .bird
+  | grouse : Subrace .bird
+  | hawk : Subrace .bird
+  | heron : Subrace .bird
+  | hummingbird : Subrace .bird
+  | kestrel : Subrace .bird
+  | kingfisher : Subrace .bird
+  | macaw : Subrace .bird
+  | magpie : Subrace .bird
+  | osprey : Subrace .bird
+  | ostrich : Subrace .bird
+  | owl : Subrace .bird
+  | giantOwl : Subrace .bird
+  | parrot : Subrace .bird
+  | peacock : Subrace .bird
+  | penguin : Subrace .bird
+  | pheasant : Subrace .bird
+  | pigeon : Subrace .bird
+  | puffin : Subrace .bird
+  | quail : Subrace .bird
+  | raven : Subrace .bird
+  | giantRaven : Subrace .bird
+  | roc : Subrace .bird
+  | seagull : Subrace .bird
+  | sparrow : Subrace .bird
+  | starling : Subrace .bird
+  | stork : Subrace .bird
+  | toucan : Subrace .bird
+  | turkey : Subrace .bird
+  | vulture : Subrace .bird
+  | giantVulture : Subrace .bird
+  | warbler : Subrace .bird
+  | woodpecker : Subrace .bird
+  | wren : Subrace .bird
+  --
+  | boar : Subrace .boar
+  | giantBoar : Subrace .boar
+  --
+  | buffalo : Subrace .buffalo
+  --
+  | camel : Subrace .camel
+  --
+  | caribou : Subrace .caribou
+  --
+  | cat : Subrace .cat
+  --
+  | centipede : Subrace .centipede
+  --
+  | cougar : Subrace .cougar
+  --
+  | cow : Subrace .cow
+  --
+  | crab : Subrace .crab
+  | giantCrab : Subrace .crab
+  --
+  | crocodile : Subrace .crocodile
+  --
+  | deer : Subrace .deer
+  --
+  | dolphin : Subrace .dolphin
+  --
+  | bassetHound : Subrace .dog
+  | bloodhound : Subrace .dog
+  | dalmatian : Subrace .dog
+  | mastiff : Subrace .dog
+  | newfoundland : Subrace .dog
+  | pug : Subrace .dog
+  | spaniel : Subrace .dog
+  --
+  | donkey : Subrace .donkey
+  --
+  | elephant : Subrace .elephant
+  --
+  | elk : Subrace .elk
+  --
+  | barracuda : Subrace .fish
+  | barbfish : Subrace .fish
+  | blackjaw : Subrace .fish
+  | bloatfish : Subrace .fish
+  | brownfin : Subrace .fish
+  | candlefish : Subrace .fish
+  | catfish : Subrace .fish
+  | dunchow : Subrace .fish
+  | icetail : Subrace .fish
+  | jewwelfish : Subrace .fish
+  | hetfish : Subrace .fish
+  | hogfish : Subrace .fish
+  | manyfin : Subrace .fish
+  | pike : Subrace .fish
+  | piranha : Subrace .fish
+  | quipper : Subrace .fish
+  | salmon : Subrace .fish
+  | sardine : Subrace .fish
+  | shark : Subrace .fish
+  | giantShark : Subrace .fish
+  | steelhead : Subrace .fish
+  | sunfish : Subrace .fish
+  | trout : Subrace .fish
+  --
+  | fox : Subrace .fox
+  --
+  | frog : Subrace .frog
+  --
+  | goat : Subrace .goat
+  | giantGoat : Subrace .goat
+  | mountainGoat : Subrace .goat
+  --
+  | hare : Subrace .hare
+  | giantHare : Subrace .hare
+  --
+  | heavyHorse : Subrace .horse
+  | heavyWarhorse : Subrace .horse
+  | lightHorse : Subrace .horse
+  | lightWarhorse : Subrace .horse
+  | pony : Subrace .horse
+  | warPony : Subrace .horse
+  --
+  | hyena : Subrace .hyena
+  --
+  | jackal : Subrace .jackal
+  --
+  | jaguar : Subrace .jaguar
+  --
+  | leech : Subrace .leech
+  | giantLeech : Subrace .leech
+  --
+  | leopard : Subrace .leopard
+  --
+  | lion : Subrace .lion
+  --
+  | bharang : Subrace .lizard
+  | chameleon : Subrace .lizard
+  | giantLizard : Subrace .lizard
+  | minotaurLizard : Subrace .lizard
+  | ridingLizard : Subrace .lizard
+  | shockerLizard : Subrace .lizard
+  | subterraneanLizard : Subrace .lizard
+  --
+  | mammoth : Subrace .mammoth
+  --
+  | moose : Subrace .moose
+  --
+  | mouse : Subrace .mouse
+  --
+  | nautilus : Subrace .nautilus
+  --
+  | octopus : Subrace .octopus
+  | giantOctopus : Subrace .octopus
+  --
+  | otter : Subrace .otter
+  --
+  | ox : Subrace .ox
+  --
+  | panther : Subrace .panther
+  --
+  | pig : Subrace .pig
+  --
+  | rat : Subrace .rat
+  --
+  | rhinoceros : Subrace .rhinoceros
+  --
+  | rothé : Subrace .rothé
+  --
+  | scorpion : Subrace .scorpion
+  --
+  | sheep : Subrace .sheep
+  | cragSheep : Subrace .sheep
+  | mountainSheep : Subrace .sheep
+  --
+  | adder : Subrace .snake
+  | asp : Subrace .snake
+  | blackMamba : Subrace .snake
+  | boomslang : Subrace .snake
+  | cobra : Subrace .snake
+  | giantCobra : Subrace .snake
+  | constrictor : Subrace .snake
+  | gaboon : Subrace .snake
+  | jit : Subrace .snake
+  | nightviper : Subrace .snake
+  | rattlesnake : Subrace .snake
+  | seaSnake : Subrace .snake
+  | sewerm : Subrace .snake
+  | viper : Subrace .snake
+  --
+  | spider : Subrace .spider
+  | electricSpider : Subrace .spider
+  | giantSpider : Subrace .spider
+  | glowSpider : Subrace .spider
+  | hairySpider : Subrace .spider
+  | steeder : Subrace .spider
+  | swordSpider : Subrace .spider
+  --
+  | tiger : Subrace .tiger
+  --
+  | toad : Subrace .toad
+  --
+  | turtle : Subrace .turtle
+  | seaTurtle : Subrace .turtle
+  --
+  | walrus : Subrace .walrus
+  --
+  | weasel : Subrace .weasel
+  --
+  | wolf : Subrace .wolf
+  | direWolf : Subrace .wolf
+  --
+  | yak : Subrace .yak
+  --
+  -- Celestials
+  --
+  | agathinon : Subrace .angel
+  | astralDeva : Subrace .angel
+  | monadicDeva : Subrace .angel
+  | movanicDeva : Subrace .angel
+  --
+  | avoral : Subrace .guardinal
+  | cervidal : Subrace .guardinal
+  | equinal : Subrace .guardinal
+  | leonal : Subrace .guardinal
+  | lupinal : Subrace .guardinal
+  | musteval : Subrace .guardinal
+  | ursinal : Subrace .guardinal
+  --
+  | hollyphant : Subrace .hollyphant
+  --
+  | kiRin : Subrace .kiRin
+  --
+  | pegasus : Subrace .pegasus
+  --
+  | unicorn : Subrace .unicorn
+  --
+  -- Constructs
+  --
+  | animatedArmour : Subrace .animatedArmour
+  --
+  | flyingWeapon : Subrace .flyingWeapon
+  --
+  | bloodGolem : Subrace .golem
+  | boneGolem : Subrace .golem
+  | brainGolem : Subrace .golem
+  | cadaverGolem : Subrace .golem
+  | demonfleshGolem : Subrace .golem
+  | dragonboneGolem : Subrace .golem
+  | dragonfleshGolem : Subrace .golem
+  | fangGolem : Subrace .golem
+  | fleshGolem : Subrace .golem
+  | ceramicGolem : Subrace .golem
+  | clayGolem : Subrace .golem
+  | clayWarrior : Subrace .golem
+  | coalGolem : Subrace .golem
+  | crystalGolem : Subrace .golem
+  | geodeGolem : Subrace .golem
+  | mudGolem : Subrace .golem
+  | porcelainGolem : Subrace .golem
+  | sandGolem : Subrace .golem
+  | stoneGolem : Subrace .golem
+  | adamantineGolem : Subrace .golem
+  | brassGolem : Subrace .golem
+  | bronzeGolem : Subrace .golem
+  | chainGolem : Subrace .golem
+  | ironGolem : Subrace .golem
+  | mithralGolem : Subrace .golem
+  | iceGolem : Subrace .golem
+  --
+  | guardianPortrait : Subrace .guardianPortrait
+  --
+  | homunculus : Subrace .homunculus
+  --
+  | inevitable : Subrace .inevitable
+  --
+  | livingSpell : Subrace .livingSpell
+  --
+  | demosMagen : Subrace .magen
+  | galvenMagen : Subrace .magen
+  | hypnosMagen : Subrace .magen
+  --
+  | monodrone : Subrace .modron
+  | duodrone : Subrace .modron
+  | tridrone : Subrace .modron
+  | quadrone : Subrace .modron
+  | pentadrone : Subrace .modron
+  | decaton : Subrace .modron
+  | nonaton : Subrace .modron
+  | octon : Subrace .modron
+  | septon : Subrace .modron
+  | hexton : Subrace .modron
+  --
+  | retriever : Subrace .retriever
+  --
+  | scarecrow : Subrace .scarecrow
+  --
+  | steelWatcher : Subrace .steelWatcher
+  | hellfireWatcher : Subrace .steelWatcher
+  --
+  -- Dragons
+  --
+  | redDragon : Subrace .chromaticDragon
+  | blackDragon : Subrace .chromaticDragon
+  | blueDragon : Subrace .chromaticDragon
+  | greenDragon : Subrace .chromaticDragon
+  | whiteDragon : Subrace .chromaticDragon
+  | brownDragon : Subrace .chromaticDragon
+  | purpleDragon : Subrace .chromaticDragon
+  | greyDragon : Subrace .chromaticDragon
+  | yellowDragon : Subrace .chromaticDragon
+  | pinkDragon : Subrace .chromaticDragon
+  --
+  | amethystDragon : Subrace .gemDragon
+  | emeraldDragon : Subrace .gemDragon
+  | sapphireDragon : Subrace .gemDragon
+  | topazDragon : Subrace .gemDragon
+  | crystalDragon : Subrace .gemDragon
+  | obsidianDragon : Subrace .gemDragon
+  | beljurilDragon : Subrace .gemDragon
+  | rubyDragon : Subrace .gemDragon
+  | amberDragon : Subrace .gemDragon
+  --
+  | kobold : Subrace .kobold
+  --
+  | goldDragon : Subrace .metallicDragon
+  | silverDragon : Subrace .metallicDragon
+  | bronzeDragon : Subrace .metallicDragon
+  | copperDragon : Subrace .metallicDragon
+  | brassDragon : Subrace .metallicDragon
+  | mercuryDragon : Subrace .metallicDragon
+  | electrumDragon : Subrace .metallicDragon
+  | ironDragon : Subrace .metallicDragon
+  | steelDragon : Subrace .metallicDragon
+  | platinumDragon : Subrace .metallicDragon
+  --
+  -- Elementals
+  --
+  | airElemental : Subrace .elemental
+  | earthElemental : Subrace .elemental
+  | fireElemental : Subrace .elemental
+  | waterElemental : Subrace .elemental
+  --
+  | dao : Subrace .genie
+  | djinni : Subrace .genie
+  | efreeti : Subrace .genie
+  | marid : Subrace .genie
+  | jann : Subrace .genie
+  | khayal : Subrace .genie
+  --
+  | airMephit : Subrace .mephit
+  | earthMephit : Subrace .mephit
+  | fireMephit : Subrace .mephit
+  | waterMephit : Subrace .mephit
+  | greaseMephit : Subrace .mephit
+  | magmaMephit : Subrace .mephit
+  | mudMephit : Subrace .mephit
+  | stoneMephit : Subrace .mephit
+  --
+  | airMyrmidon : Subrace .myrmidon
+  | earthMyrmidon : Subrace .myrmidon
+  | fireMyrmidon : Subrace .myrmidon
+  | waterMyrmidon : Subrace .myrmidon
+  --
+  | phoenix : Subrace .phoenix
+  --
+  | fireSnake : Subrace .salamander
+  | flamebrother : Subrace .salamander
+  | salamander : Subrace .salamander
+  | nobleSalamander : Subrace .salamander
+  --
+  | airWeird : Subrace .weird
+  | earthWeird : Subrace .weird
+  | fireWeird : Subrace .weird
+  | waterWeird : Subrace .weird
+  --
+  -- Fey
+  --
+  | almiraj : Subrace .almiraj
+  --
+  | blinkDog : Subrace .blinkDog
+  --
+  | boggle : Subrace .boggle
+  --
+  | brownie : Subrace .brownie
+  --
+  | centaur : Subrace .centaur
+  --
+  | dryad : Subrace .dryad
+  --
+  | gremlin : Subrace .gremlin
+  --
+  | annis : Subrace .hag
+  | bheur : Subrace .hag
+  | bogHag : Subrace .hag
+  | greenHag : Subrace .hag
+  | hagspawn : Subrace .hag
+  | nightHag : Subrace .hag
+  | seaHag : Subrace .hag
+  --
+  | killmoulis : Subrace .killmoulis
+  --
+  | leprechaun : Subrace .leprechaun
+  --
+  | meenlock : Subrace .meenlock
+  --
+  | naiad : Subrace .naiad
+  --
+  | nereid : Subrace .nereid
+  --
+  | nymph : Subrace .nymph
+  --
+  | oread : Subrace .oread
+  --
+  | redcap : Subrace .redcap
+  | madcap : Subrace .redcap
+  --
+  | satyr : Subrace .satyr
+  --
+  | spriggan : Subrace .spriggan
+  --
+  | willowisp : Subrace .willowisp
+  --
+  -- Fiends
+  --
+  | farastu : Subrace .demodand
+  | kelubar : Subrace .demodand
+  | shator : Subrace .demodand
+  --
+  | balor : Subrace .demon
+  | obyrith : Subrace .demon
+  | tanar'ri : Subrace .demon
+  | loumara : Subrace .demon
+  | ghour : Subrace .demon
+  | goristro : Subrace .demon
+  | quasit : Subrace .demon
+  | yochlol : Subrace .demon
+  --
+  | abishai : Subrace .devil
+  | advespa : Subrace .devil
+  | amnizu : Subrace .devil
+  | barbazu : Subrace .devil
+  | brachina : Subrace .devil
+  | erinyes : Subrace .devil
+  | imp : Subrace .devil
+  | lemure : Subrace .devil
+  | merregon : Subrace .devil
+  | narzugon : Subrace .devil
+  | nupperibo : Subrace .devil
+  | orthon : Subrace .devil
+  | pitFiend : Subrace .devil
+  --
+  | hellhound : Subrace .hellhound
+  --
+  | hellsboar : Subrace .hellsboar
+  --
+  | battleloth : Subrace .yugoloth
+  | canoloth : Subrace .yugoloth
+  | skeroloth : Subrace .yugoloth
+  | voor : Subrace .yugoloth
+  | mezzoloth : Subrace .yugoloth
+  | dhergoloth : Subrace .yugoloth
+  | piscoloth : Subrace .yugoloth
+  | hydroloth : Subrace .yugoloth
+  | yagnoloth : Subrace .yugoloth
+  | merrenoloth : Subrace .yugoloth
+  | nycaloth : Subrace .yugoloth
+  | arcanaloth : Subrace .yugoloth
+  | ultroloth : Subrace .yugoloth
+  | altraloth : Subrace .yugoloth
+  | baernoloth : Subrace .yugoloth
+  | oinoloth : Subrace .yugoloth
+  --
+  -- Giants
+  --
+  | cloudGiant : Subrace .cloudGiant
+  | cyclops : Subrace .cyclops
+  | ettinGiant : Subrace .ettinGiant
+  | fireGiant : Subrace .fireGiant
+  | frostGiant : Subrace .frostGiant
+  | hillGiant : Subrace .hillGiant
+  | ogre : Subrace .ogre
+  | stoneGiant : Subrace .stoneGiant
+  | stormGiant : Subrace .stormGiant
+  | troll : Subrace .troll
+  --
+  -- Humanoids
+  --
+  | aarakocra : Subrace .aarakocra
+  --
+  | fallenAasimar : Subrace .aasimar
+  | protectorAasimar : Subrace .aasimar
+  | scourgeAasimar : Subrace .aasimar
+  --
+  | bugbear : Subrace .bugbear
+  --
+  | bullywug : Subrace .bullywug
+  --
+  | changeling : Subrace .changeling
+  --
+  | blackDragonborn : Subrace .dragonborn
+  | blueDragonborn : Subrace .dragonborn
+  | brassDragonborn : Subrace .dragonborn
+  | bronzeDragonborn : Subrace .dragonborn
+  | copperDragonborn : Subrace .dragonborn
+  | goldDragonborn : Subrace .dragonborn
+  | greenDragonborn : Subrace .dragonborn
+  | redDragonborn : Subrace .dragonborn
+  | silverDragonborn : Subrace .dragonborn
+  | whiteDragonborn : Subrace .dragonborn
+  | amethystDragonborn : Subrace .dragonborn
+  | crystalDragonborn : Subrace .dragonborn
+  | emeraldDragonborn : Subrace .dragonborn
+  | sapphireDragonborn : Subrace .dragonborn
+  | topazDragonborn : Subrace .dragonborn
+  --
+  | aquaticDward : Subrace .dwarf
+  | arcticDwarf : Subrace .dwarf
+  | goldDwarf : Subrace .dwarf
+  | duergar : Subrace .dwarf
+  | shieldDwarf : Subrace .dwarf
+  | urdunnir : Subrace .dwarf
+  --
+  | sunElf : Subrace .elf
+  | moonElf : Subrace .elf
+  | starElf : Subrace .elf
+  | woodElf : Subrace .elf
+  | udadrow : Subrace .elf
+  | aevendrow : Subrace .elf
+  | lorendrow : Subrace .elf
+  | snowElf : Subrace .elf
+  --
+  | firbolg : Subrace .firbolg
+  --
+  | airGenasi : Subrace .genasi
+  | earthGenasi : Subrace .genasi
+  | fireGenasi : Subrace .genasi
+  | waterGenasi : Subrace .genasi
+  --
+  | giff : Subrace .giff
+  --
+  | githyanki : Subrace .gith
+  | githzerai : Subrace .gith
+  --
+  | gnoll : Subrace .gnoll
+  --
+  | forestGnome : Subrace .gnome
+  | rockGnome : Subrace .gnome
+  | deepGnome : Subrace .gnome
+  --
+  | batiri : Subrace .goblin
+  | dekanter : Subrace .goblin
+  | nilbog : Subrace .goblin
+  --
+  | sunHalfElf : Subrace .halfElf
+  | moonHalfElf : Subrace .halfElf
+  | starHalfElf : Subrace .halfElf
+  | woodHalfElf : Subrace .halfElf
+  | drowHalfElf : Subrace .halfElf
+  --
+  | ghostwiseHalfling : Subrace .halfling
+  | lightfootHalfling : Subrace .halfling
+  | strongheartHalfling : Subrace .halfling
+  --
+  | halfOrc : Subrace .halfOrc
+  --
+  | hobgoblin : Subrace .hobgoblin
+  --
+  | human : Subrace .human
+  --
+  | lizardfolk : Subrace .lizardfolk
+  --
+  | meazel : Subrace .meazel
+  --
+  | merfolk : Subrace .merfolk
+  --
+  | mountainOrc : Subrace .orc
+  | greyOrc : Subrace .orc
+  | orog : Subrace .orc
+  | ogrillon : Subrace .orc
+  --
+  | sahuagin : Subrace .sahuagin
+  --
+  | tabaxi : Subrace .tabaxi
+  --
+  | infernal : Subrace .tiefling
+  | abyssal : Subrace .tiefling
+  | cthonic : Subrace .tiefling
+  --
+  | tortle : Subrace .tortle
+  --
+  | triton : Subrace .triton
+  --
+  | warforged : Subrace .warforged
+  --
+  | xvart : Subrace .xvart
+  --
+  -- Monstrosities
+  --
+  | basilisk : Subrace .basilisk
+  --
+  | bulette : Subrace .bulette
+  --
+  | chimera : Subrace .chimera
+  --
+  | cockatrice : Subrace .cockatrice
+  --
+  | displacer : Subrace .displacer
+  --
+  | doppelganger : Subrace .doppelganger
+  --
+  | drider : Subrace .drider
+  --
+  | ettercap : Subrace .ettercap
+  --
+  | gremishka : Subrace .gremishka
+  --
+  | griffon : Subrace .griffon
+  --
+  | hydra : Subrace .hydra
+  --
+  | kraken : Subrace .kraken
+  --
+  | lamia : Subrace .lamia
+  --
+  | wereape : Subrace .lycanthrope
+  | werebadger : Subrace .lycanthrope
+  | werebat : Subrace .lycanthrope
+  | werebear : Subrace .lycanthrope
+  | wereboar : Subrace .lycanthrope
+  | werebison : Subrace .lycanthrope
+  | werecat : Subrace .lycanthrope
+  | werecougar : Subrace .lycanthrope
+  | werecrocodile : Subrace .lycanthrope
+  | weredog : Subrace .lycanthrope
+  | weredolphin : Subrace .lycanthrope
+  | werefox : Subrace .lycanthrope
+  | werehyena : Subrace .lycanthrope
+  | werejackal : Subrace .lycanthrope
+  | werejaguar : Subrace .lycanthrope
+  | wereleopard : Subrace .lycanthrope
+  | werelion : Subrace .lycanthrope
+  | weremole : Subrace .lycanthrope
+  | wereowl : Subrace .lycanthrope
+  | werepanther : Subrace .lycanthrope
+  | wererat : Subrace .lycanthrope
+  | wereraven : Subrace .lycanthrope
+  | wereseal : Subrace .lycanthrope
+  | wereserpent : Subrace .lycanthrope
+  | wereshark : Subrace .lycanthrope
+  | werespider : Subrace .lycanthrope
+  | weretiger : Subrace .lycanthrope
+  | wereweasel : Subrace .lycanthrope
+  | werewolf : Subrace .lycanthrope
+  | werewolverine : Subrace .lycanthrope
+  --
+  | manticore : Subrace .manticore
+  --
+  | medusa : Subrace .medusa
+  --
+  | mimic : Subrace .mimic
+  --
+  | minotaur : Subrace .minotaur
+  --
+  | darkNaga : Subrace .naga
+  | guardianNaga : Subrace .naga
+  | iridescentNaga : Subrace .naga
+  | spiritNaga : Subrace .naga
+  | waterNaga : Subrace .naga
+  --
+  | owlbear : Subrace .owlbear
+  --
+  | phaseSpider : Subrace .phaseSpider
+  --
+  | purpleWorm : Subrace .purpleWorm
+  --
+  | quaggoth : Subrace .quaggoth
+  --
+  | sphinx : Subrace .sphinx
+  --
+  | tressym : Subrace .tressym
+  --
+  | troglodyte : Subrace .troglodyte
+  --
+  | worg : Subrace .worg
+  --
+  | yeti : Subrace .yeti
+  --
+  -- Oozes
+  --
+  | athcoid : Subrace .athcoid
+  | blackPudding : Subrace .blackPudding
+  | greaseball : Subrace .greaseball
+  | greenSlime : Subrace .greenSlime
+  | greyOoze : Subrace .greyOoze
+  | ochreJelly : Subrace .ochreJelly
+  --
+  -- Plants
+  --
+  | needleBlight : Subrace .blight
+  | treeBlight : Subrace .blight
+  | twigBlight : Subrace .blight
+  | vineBlight : Subrace .blight
+  --
+  | campestri : Subrace .campestri
+  --
+  | kelpie : Subrace .kelpie
+  --
+  | myconid : Subrace .myconid
+  --
+  | spreServant : Subrace .sporeServant
+  --
+  | rimwood : Subrace .treant
+  | midwood : Subrace .treant
+  | starwood : Subrace .treant
+  --
+  | vegempygmy : Subrace .vegepygmy
+  --
+  | violetFungus : Subrace .violetFungus
+  --
+  | woodWoad : Subrace .woodWoad
+  --
+  -- Undead
+  --
+  | banshee : Subrace .banshee
+  | bodak : Subrace .bodak
+  | boneclaw : Subrace .boneclaw
+  | brainJar : Subrace .brainJar
+  | deathKnight : Subrace .deathKnight
+  | deathShepherd : Subrace .deathShepherd
+  | deathTyrant : Subrace .deathTyrant
+  | devourer : Subrace .devourer
+  | flameskull : Subrace .flameskull
+  | ghost : Subrace .ghost
+  | ghoul : Subrace .ghoul
+  | lich : Subrace .lich
+  | mummy : Subrace .mummy
+  | nightwalker : Subrace .nightwalker
+  | poltergeist : Subrace .poltergeist
+  | revenant : Subrace .revenant
+  | shadow : Subrace .shadow
+  | skeleton : Subrace .skeleton
+  | spectre : Subrace .spectre
+  | vampire : Subrace .vampire
+  | vampireSpawn : Subrace .vampireSpawn
+  | wight : Subrace .wight
+  | zombie : Subrace .zombie
 
 inductive Class where
   | barbarian
