@@ -1863,6 +1863,9 @@ inductive Feat where
 
 structure Character where
   name : String
+  creature : Creature
+  race : Race creature
+  subrace : Subrace race
   classes : Std.DTreeMap Class ClassInfo
   resources : Std.TreeMap Resource Nat
   skills : Std.DTreeMap Ability Skills
@@ -1997,12 +2000,21 @@ def scores : Character -> Std.TreeMap Ability Nat :=
       fromFeats
 
 def carryingCapacity : Character -> Int :=
-  fun char =>
+  fun char@{creature, race, ..} =>
+    let modifier := match creature with
+      | .giant => 5
+      | .humanoid => match race with
+        | .human => 3
+        | _ => 2
+      | _ => 2
     let strength := ((scores char).get? .strength).getD 0
-    40 + 10 * strength
+    (modifier * (40 + 10 * strength)) / 2
 
 def melanie : Character where
   name := "Melanie"
+  creature := .humanoid
+  race := .human
+  subrace := .human
   classes :=
     { ⟨.warlock, {level := 3, subclass := fun _ => .theArchfey}⟩
     , ⟨.rogue, {level := 1, subclass := nofun}⟩
