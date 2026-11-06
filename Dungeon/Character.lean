@@ -1866,8 +1866,10 @@ structure Character where
   race : Race creature
   subrace : Subrace race
   classes : Std.DTreeMap Class ClassInfo
+  classesNotEmpty : ∃ (x : Class), x ∈ classes
   resources : Std.TreeMap Resource Nat
   skills : Std.DTreeMap Ability Skills
+  skillsHasAllAbilities : ∀ (x : Ability), x ∈ skills
   feats : List Feat
 
 def characterLevel : Character -> Int :=
@@ -1999,15 +2001,9 @@ def scores : Character -> Std.TreeMap Ability Nat :=
       fromFeats
 
 def carryingCapacity : Character -> Int :=
-  fun char@{creature, race, ..} =>
-    let modifier := match creature with
-      | .giant => 5
-      | .humanoid => match race with
-        | .human => 3
-        | _ => 2
-      | _ => 2
+  fun char =>
     let strength := ((scores char).get? .strength).getD 0
-    (modifier * (40 + 10 * strength)) / 2
+    (40 + 10 * strength)
 
 def melanie : Character where
   name := "Melanie"
@@ -2018,6 +2014,7 @@ def melanie : Character where
     { ⟨.warlock, {level := 3, subclass := fun _ => .theArchfey}⟩
     , ⟨.rogue, {level := 1, subclass := nofun}⟩
     }
+  classesNotEmpty := by apply Exists.intro .warlock; trivial
   resources := {}
   skills :=
     { ⟨.strength, {score := 13, modifier := 0, proficiencies := {(.athletics, .proficiency)}}⟩
@@ -2033,6 +2030,9 @@ def melanie : Character where
       ⟩
     , ⟨.charisma, {score := 12, modifier := 0, proficiencies := {(.deception, .proficiency)}}⟩
     }
+  skillsHasAllAbilities := by
+    intro (x : Ability)
+    cases x with trivial
   feats := [.abilityImprovement .intelligence .intelligence]
 
 #eval carryingCapacity melanie
