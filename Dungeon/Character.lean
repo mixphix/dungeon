@@ -878,7 +878,6 @@ inductive Subrace : Race c -> Type where
   | sapphireDragonborn : Subrace .dragonborn
   | topazDragonborn : Subrace .dragonborn
   --
-  | aquaticDward : Subrace .dwarf
   | arcticDwarf : Subrace .dwarf
   | goldDwarf : Subrace .dwarf
   | duergar : Subrace .dwarf
