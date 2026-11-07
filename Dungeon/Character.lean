@@ -1,30 +1,160 @@
 import Std.Data.TreeMap.Basic
 
 inductive Deity where
+  | abbathor
+  | aerdrieFaenya
+  | akadi
+  | asgorath
+  | astilabor
+  | amauntor
+  | angharradh
+  | annamAllfather
+  | ao
+  | arvoreen
+  | asmodeus
+  | auril
+  | azuth
+  | baervanWildwanderer
   | bahamut
+  | bahgtru
+  | bane
+  | baphomet
+  | baravarCloakshadow
+  | berronarTruesilver
+  | beshaba
+  | bhaal
+  | blibdoolpoolp
+  | brandobaris
+  | callarduranSmoothhands
+  | clangeddinSilverbeard
+  | chauntea
   | corellonLarethian
+  | cyric
+  | cyrrollalee
+  | deepDuerra
+  | deepSashelas
+  | deneir
+  | dugmarenBrightmantle
+  | dumathoin
+  | eadro
   | eilistraee
+  | eldath
+  | erevanIlesere
+  | fenmarelMestarine
+  | flandalSteelskin
+  | finder
+  | gaerdalIronhand
+  | garagos
+  | gargauth
   | garlGlittergold
+  | garyx
+  | ghaunadaur
+  | gond
+  | gormGulthyn
+  | grolantor
+  | grumbar
   | gruumsh
+  | gwaeronWindstrom
+  | haelaBrightaxe
+  | hanaliCelanil
   | helm
+  | hiatea
+  | hlal
+  | hoar
+  | hruggek
+  | iallanis
+  | ibrandul
   | ilmater
+  | ilneval
+  | istishia
+  | jergal
+  | hiaransalee
   | kelemvor
+  | kereska
+  | kossuth
+  | kurtulmak
+  | labelasEnoreth
   | laduguer
   | lathander
+  | laogzed
+  | leira
+  | lendys
+  | lliira
   | lolth
+  | loviatar
+  | lurue
+  | luthic
+  | maglubiyet
+  | malar
+  | marthammorDuin
+  | mask
+  | memnor
+  | merrshaulk
   | mielikki
+  | milil
   | moradin
+  | myrkul
   | mystra
+  | nobanion
+  | null
   | oghma
+  | othea
+  | persana
+  | ramenos
+  | redKnight
+  | rillifaneRallathil
+  | savras
+  | segojanEarthcaller
+  | sehanineMoonbow
+  | sekolah
+  | selvetarm
   | selûne
+  | semuanya
   | shar
+  | sharess
+  | shargaas
+  | sharindlar
+  | sheelaPeryroyl
+  | shevarash
+  | shiallia
+  | siamorphe
+  | silvanus
+  | skerrit
+  | skoraeusStonebones
+  | solonorThelandira
+  | sseth
+  | stronmaus
+  | sune
+  | surtr
+  | talona
   | talos
+  | tamara
+  | task
   | tempus
+  | thardHarr
+  | thrym
   | tiamat
+  | torm
+  | trishina
   | tymora
   | tyr
+  | ubtao
+  | ulutiu
+  | umberlee
+  | urdlen
+  | urogalan
+  | uthgar
+  | valkur
+  | vaprak
+  | velsharoon
+  | vergadain
+  | vhaeraun
   | vlaakith
+  | waukeen
   | yondalla
+  | yurtrus
+  | zehir
+  | zorquan
   deriving BEq, DecidableEq, Ord, Repr
 
 inductive Creature where
