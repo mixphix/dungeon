@@ -1271,75 +1271,132 @@ def subclassLevel : Class -> Int :=
 
 inductive Subclass : Class -> Type where
   -- Barbarian
-  | berserker : Subclass .barbarian
-  | giant : Subclass .barbarian
-  | wildMagicBarbarian : Subclass .barbarian
-  | wildheart : Subclass .barbarian
+  | pathOfTheAncestralGuardian : Subclass .barbarian
+  | pathOfTheBattlerager : Subclass .barbarian
+  | pathOfTheBeast : Subclass .barbarian
+  | pathOfTheBerserker : Subclass .barbarian
+  | pathOfTheGiant : Subclass .barbarian
+  | pathOfTheStormHerald : Subclass .barbarian
+  | pathOfTheTotemWarrior : Subclass .barbarian
+  | pathOfTheWildheart : Subclass .barbarian
+  | pathOfWildMagic : Subclass .barbarian
+  | pathOfTheZealot : Subclass .barbarian
   -- Bard
+  | collegeOfCreation : Subclass .bard
+  | collegeOfEloquence : Subclass .bard
   | collegeOfGlamour : Subclass .bard
   | collegeOfLore : Subclass .bard
+  | collegeOfSpirits : Subclass .bard
   | collegeOfSwords : Subclass .bard
   | collegeOfValour : Subclass .bard
+  | collegeOfWhispers : Subclass .bard
   -- Cleric
+  | arcanaDomain : Subclass (.cleric deity)
   | deathDomain : Subclass (.cleric deity)
+  | forgeDomain : Subclass (.cleric deity)
+  | graveDomain : Subclass (.cleric deity)
   | knowledgeDomain : Subclass (.cleric deity)
   | lifeDomain : Subclass (.cleric deity)
   | lightDomain : Subclass (.cleric deity)
   | natureDomain : Subclass (.cleric deity)
+  | orderDomain : Subclass (.cleric deity)
+  | peaceDomain : Subclass (.cleric deity)
   | tempestDomain : Subclass (.cleric deity)
   | trickeryDomain : Subclass (.cleric deity)
+  | twilightDomain : Subclass (.cleric deity)
   | warDomain : Subclass (.cleric deity)
   -- Druid
+  | circleOfDreams : Subclass .druid
   | circleOfTheLand : Subclass .druid
   | circleOfTheMoon : Subclass .druid
+  | circleOfTheShepherd : Subclass .druid
   | circleOfTheSpores : Subclass .druid
   | circleOfTheStars : Subclass .druid
+  | circleOfWildfire : Subclass .druid
   -- Fighter
   | arcaneArcher : Subclass .fighter
   | battleMaster : Subclass .fighter
+  | cavalier : Subclass .fighter
   | champion : Subclass .fighter
+  | echoKnight : Subclass .fighter
   | eldritchKnight : Subclass .fighter
+  | psiWarrior : Subclass .fighter
+  | purpleDragonKnight : Subclass .fighter
+  | runeKnight : Subclass .fighter
+  | samurai : Subclass .fighter
   -- Monk
+  | wayOfTheAscendantDragon : Subclass .monk
+  | wayOfTheAstralSelf : Subclass .monk
   | wayOfTheDrunkenMaster : Subclass .monk
   | wayOfTheFourElements : Subclass .monk
+  | wayOfTheKensei : Subclass .monk
+  | wayOfTheLongDeath : Subclass .monk
+  | wayOfMercy : Subclass .monk
   | wayOfTheOpenHand : Subclass .monk
   | wayOfShadow : Subclass .monk
+  | wayOfTheSunSoul : Subclass .monk
   -- Paladin
-  | oathOfDevotion : Subclass .paladin
   | oathOfTheAncients : Subclass .paladin
+  | oathOfConquest : Subclass .paladin
   | oathOfTheCrown : Subclass .paladin
+  | oathOfDevotion : Subclass .paladin
+  | oathOfGlory : Subclass .paladin
+  | oathOfRedemption : Subclass .paladin
   | oathOfVengeance : Subclass .paladin
+  | oathOfTheWatchers : Subclass .paladin
   | oathbreaker : Subclass .paladin
   -- Ranger
   | beastMaster : Subclass .ranger
+  | drakewarden : Subclass .ranger
+  | feyWanderer : Subclass .ranger
   | gloomstalker : Subclass .ranger
+  | horizonWalker : Subclass .ranger
   | hunter : Subclass .ranger
+  | monsterSlayer : Subclass .ranger
   | swarmkeeper : Subclass .ranger
   -- Rogue
   | arcaneTrickster : Subclass .rogue
   | assassin : Subclass .rogue
+  | inquisitive : Subclass .rogue
+  | mastermind : Subclass .rogue
+  | phantom : Subclass .rogue
+  | scout : Subclass .rogue
+  | soulknife : Subclass .rogue
   | swashbuckler : Subclass .rogue
   | thief : Subclass .rogue
   -- Sorcerer
+  | aberrantMind : Subclass .sorcerer
+  | clockworkSoul : Subclass .sorcerer
+  | divineSoul : Subclass .sorcerer
   | draconicBloodline : Subclass .sorcerer
+  | lunarSorcery : Subclass .sorcerer
   | shadowMagic : Subclass .sorcerer
   | stormSorcery : Subclass .sorcerer
-  | wildMagicSorcerer : Subclass .sorcerer
+  | wildMagic : Subclass .sorcerer
   -- Warlock
   | theArchfey : Subclass .warlock
+  | theCelestial : Subclass .warlock
+  | theFathomless : Subclass .warlock
   | theFiend : Subclass .warlock
+  | theGenie : Subclass .warlock
   | theGreatOldOne : Subclass .warlock
   | theHexblade : Subclass .warlock
+  | theUndead : Subclass .warlock
+  | theUndying : Subclass .warlock
   -- Wizard
+  | orderOfScribes : Subclass .wizard
   | schoolOfAbjuration : Subclass .wizard
   | schoolOfBladesinging : Subclass .wizard
+  | schoolOfChonurgy : Subclass .wizard
   | schoolOfConjuration : Subclass .wizard
   | schoolOfDivination : Subclass .wizard
   | schoolOfEnchantment : Subclass .wizard
   | schoolOfEvocation : Subclass .wizard
+  | schoolOfGraviturgy : Subclass .wizard
   | schoolOfIllusion : Subclass .wizard
   | schoolOfNecromancy : Subclass .wizard
   | schoolOfTransmutation : Subclass .wizard
+  | schoolOfWarMagic : Subclass .wizard
   deriving BEq, DecidableEq, Ord, Repr
 
 inductive SpellSlot where
@@ -1820,7 +1877,7 @@ def classResources : Int -> DSpecify Class Subclass -> Std.TreeMap Resource Int 
     {(.kiPoint, leveledResource lvl .kiPoint)}
   | .avec .fighter .battleMaster =>
     {(.superiorityDie, leveledResource lvl .superiorityDie)}
-  | .avec .sorcerer .wildMagicSorcerer =>
+  | .avec .sorcerer .wildMagic =>
     {(.tidesOfChaos, 1)}
   | .sans .druid =>
     {(.wildShape, 2)}
